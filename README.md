@@ -29,7 +29,7 @@ A fully compliant, 32-bit 5-stage pipelined RISC-V (RV32I) CPU core written in S
     +---------+     +---------+       +---------+       +---------+       +---------+    |
          |               |                 |                 |                 |         |
      instr_mem        regfile             alu            data_mem          regfile       |
-                      imm_gen         alu_control                          (write)       |
+                      immgen         alu_control                          (write)       |
                          |                 ^                 |                 |         |
                          |                 |                 |                 |         |
                          +-----------------+-----------------+-----------------+         |
@@ -41,7 +41,7 @@ A fully compliant, 32-bit 5-stage pipelined RISC-V (RV32I) CPU core written in S
 ### Pipeline Breakdown
 
 1. **Instruction Fetch (IF):** Increments PC by 4 or branches to target; fetches instructions from `instr_mem.sv`.
-2. **Instruction Decode (ID):** Decodes opcodes via `control_unit.sv`, reads `regfile.sv`, and sign-extends immediates with `imm_gen.sv`.
+2. **Instruction Decode (ID):** Decodes opcodes via `control_unit.sv`, reads `regfile.sv`, and sign-extends immediates with `immgen.sv`.
 3. **Execute (EX):** Resolves ALU operations via `alu.sv` and `alu_control.sv`. Handles input operand multiplexing driven by `forwarding_unit.sv`.
 4. **Memory (MEM):** Synchronously writes or combinationally reads data memory (`data_mem.sv`). Evaluates branch target conditions.
 5. **Write-Back (WB):** Selects between memory load data and ALU execution results to write back into the register file.
@@ -90,7 +90,7 @@ Waveform snippet illustrating the execution of dependent instructions (`add x3, 
 
 ---
 
-### 3. Immediate Generator Unit Test (`tb_imm_gen.sv`)
+### 3. Immediate Generator Unit Test (`tb_immgen.sv`)
 
 Self-checking unit verification covering all 5 RISC-V sign-extension formats (I, S, B, U, J), including negative sign extension and alignment handling.
 
