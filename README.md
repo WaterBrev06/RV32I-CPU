@@ -59,7 +59,7 @@ A fully compliant, 32-bit 5-stage pipelined RISC-V (RV32I) CPU core written in S
 | `alu.sv` | Design | 32-bit 10-operation Arithmetic Logic Unit. |
 | `alu_control.sv` | Design | Decodes `alu_op`, `funct3`, and `funct7` bits into 4-bit ALU control lines. |
 | `control_unit.sv` | Design | Main decoder generating single-bit pipeline control signals based on opcode. |
-| `imm_gen.sv` | Design | Immediate generator for I, S, B, U, and J instruction formats. |
+| `immgen.sv` | Design | Immediate generator for I, S, B, U, and J instruction formats. |
 | `if_id_reg.sv` | Pipeline Reg | IF/ID register supporting stall and flush controls. |
 | `id_ex_reg.sv` | Pipeline Reg | ID/EX register supporting flush control for stall injection. |
 | `ex_mem_reg.sv` | Pipeline Reg | EX/MEM register passing ALU outputs and write registers. |
