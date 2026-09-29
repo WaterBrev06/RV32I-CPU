@@ -29,7 +29,7 @@ A fully compliant, 32-bit 5-stage pipelined RISC-V (RV32I) CPU core written in S
     +---------+     +---------+       +---------+       +---------+       +---------+    |
          |               |                 |                 |                 |         |
      instr_mem        regfile             alu            data_mem          regfile       |
-                      immgen         alu_control                          (write)       |
+                      immgen          alu_control                          (write)       |
                          |                 ^                 |                 |         |
                          |                 |                 |                 |         |
                          +-----------------+-----------------+-----------------+         |
