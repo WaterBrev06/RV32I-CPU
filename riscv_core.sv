@@ -70,7 +70,7 @@ module riscv_core(
     end
 
     assign pc_plus_4 = pc + 32'd4;
-    assign next_pc   = branch_taken ? mem_branch_target : pc_plus_4;
+    assign next_pc   = branch_taken ? ex_branch_target : pc_plus_4;
 
     // Instruction Memory
     instr_mem imem (
@@ -113,7 +113,7 @@ module riscv_core(
     );
 
     // Register File
-    regfile rf (
+    regfile u_regfile (
         .clk       (clk),
         .reg_write (wb_reg_write),
         .rs1_addr  (id_rs1_addr),
@@ -251,7 +251,7 @@ module riscv_core(
     // 4. MEMORY (MEM) STAGE
     // ========================================================================
 
-    assign branch_taken = mem_branch && mem_zero;
+    assign branch_taken = ex_branch && ex_zero;
 
     // Data Memory
     data_mem dmem (

@@ -4,7 +4,9 @@ module data_mem(
     input  logic        clk,
     input  logic        mem_read,   // Read enable signal
     input  logic        mem_write,  // Write enable signal
+    /* verilator lint_off UNUSEDSIGNAL */
     input  logic [31:0] addr,       // Address calculated by ALU
+    /* verilator lint_on UNUSEDSIGNAL */
     input  logic [31:0] write_data, // Data to store (rs2)
     output logic [31:0] read_data   // Loaded data output
     );

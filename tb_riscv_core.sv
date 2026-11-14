@@ -27,13 +27,13 @@ module tb_riscv_core;
         input string       test_desc
     );
         test_count++;
-        if (uut.rf.rf[reg_addr] !== expected_val) begin
+        if (uut.u_regfile.rf[reg_addr] !== expected_val) begin
             $display("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)",
-                     test_desc, reg_addr, uut.rf.rf[reg_addr], uut.rf.rf[reg_addr], expected_val, expected_val);
+                     test_desc, reg_addr, uut.u_regfile.rf[reg_addr], uut.u_regfile.rf[reg_addr], expected_val, expected_val);
             error_count++;
         end else begin
             $display("PASS [%s]: x%0d = 0x%h (%0d)", 
-                     test_desc, reg_addr, uut.rf.rf[reg_addr], uut.rf.rf[reg_addr]);
+                     test_desc, reg_addr, uut.u_regfile.rf[reg_addr], uut.u_regfile.rf[reg_addr]);
         end
     endtask
 
@@ -53,6 +53,12 @@ module tb_riscv_core;
                      test_desc, mem_addr, uut.dmem.mem[mem_addr[9:2]]);
         end
     endtask
+
+    initial begin
+        $dumpfile("wave.vcd");
+        $dumpvars(0, tb_riscv_core);
+    end
+
 
     initial begin
         // Initialize signals
