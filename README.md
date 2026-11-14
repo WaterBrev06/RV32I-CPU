@@ -42,8 +42,8 @@ A fully compliant, 32-bit 5-stage pipelined RISC-V (RV32I) CPU core written in S
 
 1. **Instruction Fetch (IF):** Increments PC by 4 or branches to target; fetches instructions from `instr_mem.sv`.
 2. **Instruction Decode (ID):** Decodes opcodes via `control_unit.sv`, reads `regfile.sv`, and sign-extends immediates with `immgen.sv`.
-3. **Execute (EX):** Resolves ALU operations via `alu.sv` and `alu_control.sv`. Handles input operand multiplexing driven by `forwarding_unit.sv`.
-4. **Memory (MEM):** Synchronously writes or combinationally reads data memory (`data_mem.sv`). Evaluates branch target conditions.
+3. **Execute (EX):** Resolves ALU operations via `alu.sv` and `alu_control.sv`. Handles input operand multiplexing driven by `forwarding_unit.sv`. Evaluates branch target conditions.
+4. **Memory (MEM):** Synchronously writes or combinationally reads data memory (`data_mem.sv`). 
 5. **Write-Back (WB):** Selects between memory load data and ALU execution results to write back into the register file.
 
 ---
