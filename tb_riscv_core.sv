@@ -9,6 +9,10 @@ module tb_riscv_core;
 
     int error_count = 0;
     int test_count  = 0;
+    int cycles      = 0;
+    int retired     = 0;
+    bit done        = 0;
+
 
     // Instantiate Unit Under Test (UUT)
     riscv_core uut (
@@ -54,6 +58,15 @@ module tb_riscv_core;
         end
     endtask
 
+    always @(posedge clk) begin
+        if (!rst && !done) begin
+            cycles++;
+            if (uut.wb_valid) retired++;
+            // stop counting when the end marker (addi x6) completes
+            if (uut.wb_valid && uut.wb_reg_write && uut.wb_rd_addr == 5'd6) done = 1;
+        end
+    end
+
     initial begin
         $dumpfile("wave.vcd");
         $dumpvars(0, tb_riscv_core);
@@ -73,33 +86,40 @@ module tb_riscv_core;
         #20;
         rst = 0;
 
-        // Allow 15 clock cycles (300ns) for the test program to cycle through all 5 pipeline stages
+        // Allow 40 clock cycles (800ns) for the test program to cycle through all 5 pipeline stages
         // Executing pre-loaded program in instr_mem:
         // [0] addi x1, x0, 10   (x1 <= 10)
         // [1] addi x2, x0, 20   (x2 <= 20)
         // [2] add  x3, x1, x2   (x3 <= 30, relies on EX-to-EX forwarding)
         // [3] sw   x3, 0(x0)    (mem[0] <= 30)
         // [4] lw   x4, 0(x0)    (x4 <= 30, tests MEM-to-EX/WB datapath)
-        #300;
+        #800;
 
         $display("\n--------------------------------------------------");
         $display(" VERIFYING PIPELINE EXECUTION & HAZARD RESOLUTION ");
         $display("--------------------------------------------------");
 
-        // 1. Verify Immediate Addition (addi x1, x0, 10)
-        check_reg(5'd1, 32'd10, "1. Immediate Addition into x1");
+        // // 1. Verify Immediate Addition (addi x1, x0, 10)
+        // check_reg(5'd1, 32'd10, "1. Immediate Addition into x1");
 
-        // 2. Verify Second Immediate Addition (addi x2, x0, 20)
-        check_reg(5'd2, 32'd20, "2. Immediate Addition into x2");
+        // // 2. Verify Second Immediate Addition (addi x2, x0, 20)
+        // check_reg(5'd2, 32'd20, "2. Immediate Addition into x2");
 
-        // 3. Verify Forwarded R-Type ADD (add x3, x1, x2)
-        check_reg(5'd3, 32'd30, "3. RAW Hazard Forwarded Addition into x3");
+        // // 3. Verify Forwarded R-Type ADD (add x3, x1, x2)
+        // check_reg(5'd3, 32'd30, "3. RAW Hazard Forwarded Addition into x3");
 
-        // 4. Verify Store Word (sw x3, 0(x0))
-        check_mem(32'd0, 32'd30, "4. Store Word to Data Memory Addr 0x0");
+        // // 4. Verify Store Word (sw x3, 0(x0))
+        // check_mem(32'd0, 32'd30, "4. Store Word to Data Memory Addr 0x0");
 
-        // 5. Verify Load Word (lw x4, 0(x0))
-        check_reg(5'd4, 32'd30, "5. Load Word from Data Memory into x4");
+        // // 5. Verify Load Word (lw x4, 0(x0))
+        // check_reg(5'd4, 32'd30, "5. Load Word from Data Memory into x4");
+
+        check_reg(5'd3, 32'd0, "BNE taken: x3 skipped");
+        check_reg(5'd4, 32'd0, "BLT taken: x4 skipped");
+        check_reg(5'd5, 32'd1, "BGE not taken: x5 executed");
+        check_reg(5'd8, 32'd0, "BLT signed (-1 < 5) taken: x8 skipped");
+        check_reg(5'd9, 32'd1, "BLTU unsigned (0xFFFFFFFF > 5) not taken: x9 executed");
+        check_reg(5'd6, 32'd7, "End marker: x6 reached");
 
         // Verification Summary
         $display("==================================================");
@@ -108,6 +128,7 @@ module tb_riscv_core;
         end else begin
             $display("FAILURE: %0d out of %0d tests failed.", error_count, test_count);
         end
+        $display("Retired %0d instructions in %0d cycles: IPC = %0.2f", retired, cycles, real'(retired) / cycles);
         $display("==================================================");
 
         $finish;

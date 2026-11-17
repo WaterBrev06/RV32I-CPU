@@ -227,6 +227,6 @@ VL_ATTR_COLD void Vtb_riscv_core::traceBaseModel(VerilatedTraceBaseC* tfp, int l
             " use --trace-fst with VerilatedFst object, and --trace-vcd with VerilatedVcd object");
     }
     stfp->spTrace()->addModel(this);
-    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->vlInst.TOP), name(), false, 125);
+    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->vlInst.TOP), name(), false, 134);
     Vtb_riscv_core___024root__trace_register(&(vlSymsp->vlInst.TOP), stfp->spTrace());
 }

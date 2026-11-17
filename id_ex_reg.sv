@@ -4,6 +4,7 @@ module id_ex_reg(
     input  logic        clk,
     input  logic        rst,
     input  logic        flush,         // Flush to bubble on hazard/branch
+    input  logic        valid_in,   
 
     // Control Inputs
     input  logic        reg_write_in,
@@ -26,6 +27,7 @@ module id_ex_reg(
     input  logic [4:0]  rs2_addr_in,
     input  logic [4:0]  rd_addr_in,
 
+    output logic        valid_out,
     // Control Outputs
     output logic        reg_write_out,
     output logic        mem_to_reg_out,
@@ -69,6 +71,7 @@ module id_ex_reg(
             rs1_addr_out   <= 5'd0;
             rs2_addr_out   <= 5'd0;
             rd_addr_out    <= 5'd0;
+            valid_out      <= 0;
         end else begin
             reg_write_out  <= reg_write_in;
             mem_to_reg_out <= mem_to_reg_in;
@@ -88,6 +91,7 @@ module id_ex_reg(
             rs1_addr_out   <= rs1_addr_in;
             rs2_addr_out   <= rs2_addr_in;
             rd_addr_out    <= rd_addr_in;
+            valid_out      <= valid_in;
         end
     end
     

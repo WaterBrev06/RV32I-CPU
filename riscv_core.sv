@@ -27,6 +27,7 @@ module riscv_core(
     logic [31:0] id_rs1_data, id_rs2_data, id_imm;
     logic        id_reg_write, id_mem_to_reg, id_mem_read, id_mem_write;
     logic        id_branch, id_jump, id_alu_src;
+    logic        id_valid;
     logic [1:0]  id_alu_op;
 
     // ----- EX Stage -----
@@ -41,18 +42,22 @@ module riscv_core(
     logic [31:0] alu_in1, alu_in2, forward_b_data;
     logic [31:0] ex_alu_out, ex_branch_target;
     logic        ex_zero;
+    logic        ex_branch_take;
+    logic        ex_valid;
 
     // ----- MEM Stage -----
     logic        mem_reg_write, mem_mem_to_reg, mem_mem_read, mem_write_enable, mem_branch;
     logic [31:0] mem_branch_target, mem_alu_out, mem_rs2_data, mem_read_data;
     logic        mem_zero;
     logic [4:0]  mem_rd_addr;
+    logic        mem_valid;
 
     // ----- WB Stage -----
     logic        wb_reg_write, wb_mem_to_reg;
     logic [31:0] wb_read_data, wb_alu_out;
     logic [4:0]  wb_rd_addr;
     logic [31:0] wb_data;
+    logic        wb_valid;
 
     assign wb_result = wb_data;
 
@@ -84,10 +89,12 @@ module riscv_core(
         .rst       (rst),
         .stall     (if_id_stall),
         .flush     (if_id_flush),
+        .valid_in  (1'b1),
         .pc_in     (pc),
         .instr_in  (if_instr),
         .pc_out    (id_pc),
-        .instr_out (id_instr)
+        .instr_out (id_instr),
+        .valid_out (id_valid)
     );
 
 
@@ -152,6 +159,7 @@ module riscv_core(
         .rs1_addr_in    (id_rs1_addr),
         .rs2_addr_in    (id_rs2_addr),
         .rd_addr_in     (id_rd_addr),
+        .valid_in       (id_valid),
 
         .reg_write_out  (ex_reg_write),
         .mem_to_reg_out (ex_mem_to_reg),
@@ -169,7 +177,8 @@ module riscv_core(
         .op_bit5_out    (ex_op_bit5),
         .rs1_addr_out   (ex_rs1_addr),
         .rs2_addr_out   (ex_rs2_addr),
-        .rd_addr_out    (ex_rd_addr)
+        .rd_addr_out    (ex_rd_addr),
+        .valid_out      (ex_valid)
     );
 
 
@@ -218,6 +227,14 @@ module riscv_core(
         .alu_out  (ex_alu_out),
         .zero     (ex_zero)
     );
+        
+    //Branch Unit
+    branch_unit u_bu (
+        .a        (alu_in1),
+        .b        (forward_b_data),
+        .funct3  (ex_funct3),
+        .take     (ex_branch_take)
+    );
 
     // EX/MEM Pipeline Register
     ex_mem_reg ex_mem (
@@ -233,6 +250,7 @@ module riscv_core(
         .alu_out_in        (ex_alu_out),
         .rs2_data_in       (forward_b_data),
         .rd_addr_in        (ex_rd_addr),
+        .valid_in          (ex_valid),
 
         .reg_write_out     (mem_reg_write),
         .mem_to_reg_out    (mem_mem_to_reg),
@@ -243,7 +261,8 @@ module riscv_core(
         .zero_out          (mem_zero),
         .alu_out_out       (mem_alu_out),
         .rs2_data_out      (mem_rs2_data),
-        .rd_addr_out       (mem_rd_addr)
+        .rd_addr_out       (mem_rd_addr),
+        .valid_out         (mem_valid)
     );
 
 
@@ -251,7 +270,7 @@ module riscv_core(
     // 4. MEMORY (MEM) STAGE
     // ========================================================================
 
-    assign branch_taken = ex_branch && ex_zero;
+    assign branch_taken = ex_branch && ex_branch_take;
 
     // Data Memory
     data_mem dmem (
@@ -272,12 +291,14 @@ module riscv_core(
         .read_data_in   (mem_read_data),
         .alu_out_in     (mem_alu_out),
         .rd_addr_in     (mem_rd_addr),
+        .valid_in       (mem_valid),
 
         .reg_write_out  (wb_reg_write),
         .mem_to_reg_out (wb_mem_to_reg),
         .read_data_out  (wb_read_data),
         .alu_out_out    (wb_alu_out),
-        .rd_addr_out    (wb_rd_addr)
+        .rd_addr_out    (wb_rd_addr),
+        .valid_out      (wb_valid)
     );
 
 

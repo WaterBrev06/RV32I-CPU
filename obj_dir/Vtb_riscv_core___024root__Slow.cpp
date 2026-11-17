@@ -13,8 +13,9 @@ void Vtb_riscv_core___024root__ctor(Vtb_riscv_core___024root* vlSelf, Vtb_riscv_
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8);
-    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_11);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_11);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__VdlySched, *vlSelf->vlSymsp->_vm_contextp__);
     // Reset structure values
     Vtb_riscv_core___024root___ctor_var_reset(vlSelf);
@@ -27,8 +28,9 @@ Vtb_riscv_core___024root::Vtb_riscv_core___024root(Vtb_riscv_core__Syms* symsp, 
 void Vtb_riscv_core___024root__dtor(Vtb_riscv_core___024root* vlSelf) {
     // Destroy members
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__VdlySched);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14);
-    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_11);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_11);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2);

@@ -19,14 +19,17 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_riscv_core___024root final {
     struct {
         ::CData/*0:0*/ tb_riscv_core__DOT__clk;
         ::CData/*0:0*/ tb_riscv_core__DOT__rst;
+        ::CData/*0:0*/ tb_riscv_core__DOT__done;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__pc_stall;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__if_id_flush;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__id_ex_flush;
         ::CData/*1:0*/ tb_riscv_core__DOT__uut__DOT__forward_a;
         ::CData/*1:0*/ tb_riscv_core__DOT__uut__DOT__forward_b;
+        ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__valid_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__reg_write_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__mem_to_reg_out;
         ::CData/*4:0*/ tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out;
+        ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__valid_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__reg_write_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__mem_to_reg_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__mem_read_out;
@@ -34,6 +37,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_riscv_core___024root final {
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__branch_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__zero_out;
         ::CData/*4:0*/ tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rd_addr_out;
+        ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__valid_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__reg_write_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__mem_to_reg_out;
         ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__mem_read_out;
@@ -47,16 +51,19 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_riscv_core___024root final {
         ::CData/*4:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs1_addr_out;
         ::CData/*4:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs2_addr_out;
         ::CData/*4:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rd_addr_out;
-        ::CData/*7:0*/ __Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_36;
-        ::CData/*0:0*/ __Vdly_Set__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_37;
-        ::CData/*4:0*/ __Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_39;
-        ::CData/*0:0*/ __Vdly_Set__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_40;
+        ::CData/*0:0*/ tb_riscv_core__DOT__uut__DOT__if_id__DOT__valid_out;
+        ::CData/*7:0*/ __Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_40;
+        ::CData/*0:0*/ __Vdly_Set__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_41;
+        ::CData/*4:0*/ __Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_43;
+        ::CData/*0:0*/ __Vdly_Set__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_44;
         ::CData/*0:0*/ __Vtrigprevexpr___TOP__tb_riscv_core__DOT__clk__0;
         ::CData/*0:0*/ __Vtrigprevexpr___TOP__tb_riscv_core__DOT__rst__0;
-        ::SData/*8:0*/ __Vdfg_Regularize_252;
+        ::SData/*8:0*/ __Vdfg_Regularize_265;
         ::IData/*31:0*/ tb_riscv_core__DOT__wb_result;
         ::IData/*31:0*/ tb_riscv_core__DOT__error_count;
         ::IData/*31:0*/ tb_riscv_core__DOT__test_count;
+        ::IData/*31:0*/ tb_riscv_core__DOT__cycles;
+        ::IData/*31:0*/ tb_riscv_core__DOT__retired;
         ::IData/*31:0*/ tb_riscv_core__DOT__uut__DOT__pc;
         ::IData/*31:0*/ tb_riscv_core__DOT__uut__DOT__next_pc;
         ::IData/*31:0*/ tb_riscv_core__DOT__uut__DOT__id_imm;
@@ -74,22 +81,22 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_riscv_core___024root final {
         ::IData/*31:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs1_data_out;
         ::IData/*31:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs2_data_out;
         ::IData/*31:0*/ tb_riscv_core__DOT__uut__DOT__id_ex__DOT__imm_out;
+    };
+    struct {
         ::IData/*31:0*/ tb_riscv_core__DOT__uut__DOT__if_id__DOT__pc_out;
         ::IData/*31:0*/ tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out;
-        ::IData/*31:0*/ __Vdly_Val__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_35;
-        ::IData/*31:0*/ __Vdly_Val__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_38;
+        ::IData/*31:0*/ __Vdly_Val__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_39;
+        ::IData/*31:0*/ __Vdly_Val__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_42;
         ::IData/*31:0*/ __Vi;
         ::VlUnpacked<::IData/*31:0*/, 256> tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem;
         ::VlUnpacked<::IData/*31:0*/, 32> tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf;
-    };
-    struct {
         ::VlUnpacked<::IData/*31:0*/, 256> tb_riscv_core__DOT__uut__DOT__imem__DOT__mem;
         ::VlUnpacked<::QData/*63:0*/, 1> __VstlTriggered;
         ::VlUnpacked<::QData/*63:0*/, 1> __VicoTriggered;
         ::VlUnpacked<::QData/*63:0*/, 1> __VactTriggered;
         ::VlUnpacked<::QData/*63:0*/, 1> __VactTriggeredAcc;
         ::VlUnpacked<::QData/*63:0*/, 1> __VnbaTriggered;
-        ::VlUnpacked<::CData/*0:0*/, 2> __VtraceActivity;
+        ::VlUnpacked<::CData/*0:0*/, 3> __VtraceActivity;
     };
 
     // NOT TRIVIALLY CONSTRUCTIBLE STATE
@@ -98,8 +105,9 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_riscv_core___024root final {
             ::std::string __Vtask_tb_riscv_core__DOT__check_reg__test_desc_2;
             ::std::string __Vtask_tb_riscv_core__DOT__check_reg__test_desc_5;
             ::std::string __Vtask_tb_riscv_core__DOT__check_reg__test_desc_8;
-            ::std::string __Vtask_tb_riscv_core__DOT__check_mem__test_desc_11;
+            ::std::string __Vtask_tb_riscv_core__DOT__check_reg__test_desc_11;
             ::std::string __Vtask_tb_riscv_core__DOT__check_reg__test_desc_14;
+            ::std::string __Vtask_tb_riscv_core__DOT__check_reg__test_desc_17;
             ::VlDelayScheduler __VdlySched;
         } __Vnontrivs;
     };
