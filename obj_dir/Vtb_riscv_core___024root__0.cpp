@@ -4,6 +4,7 @@
 
 #include "Vtb_riscv_core__pch.h"
 
+VL_ATTR_COLD void Vtb_riscv_core___024root___eval_initial__TOP(Vtb_riscv_core___024root* vlSelf);
 VlCoroutine Vtb_riscv_core___024root___eval_initial__TOP__Vtiming__0(Vtb_riscv_core___024root* vlSelf);
 VlCoroutine Vtb_riscv_core___024root___eval_initial__TOP__Vtiming__1(Vtb_riscv_core___024root* vlSelf);
 
@@ -12,43 +13,7 @@ void Vtb_riscv_core___024root___eval_initial(Vtb_riscv_core___024root* vlSelf) {
     Vtb_riscv_core__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    {
-        // Inlined CFunc: _eval_initial__TOP
-        ::IData/*31:0*/ __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__dmem__DOT__unnamedblk1__DOT__i;
-        __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__dmem__DOT__unnamedblk1__DOT__i = 0;
-        ::IData/*31:0*/ __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__i;
-        __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__i = 0;
-        vlSymsp->_vm_contextp__->dumpfile("wave.vcd"s);
-        vlSymsp->_traceDumpOpen();
-        __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__dmem__DOT__unnamedblk1__DOT__i = 0U;
-        while (VL_GTS_III(32, 0x00000100U, __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__dmem__DOT__unnamedblk1__DOT__i)) {
-            vlSelfRef.tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem[(0x000000ffU 
-                                                                    & __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__dmem__DOT__unnamedblk1__DOT__i)] = 0U;
-            __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__dmem__DOT__unnamedblk1__DOT__i 
-                = ((::IData)(1U) + __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__dmem__DOT__unnamedblk1__DOT__i);
-        }
-        __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__i = 0U;
-        while (VL_GTS_III(32, 0x00000100U, __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__i)) {
-            vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[(0x000000ffU 
-                                                                    & __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__i)] = 0x00000013U;
-            __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__i 
-                = ((::IData)(1U) + __Vinline_0__eval_initial__TOP_tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__i);
-        }
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[0U] = 0x00500093U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[1U] = 0x00700113U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[2U] = 0xfff00393U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[3U] = 0x00209463U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[4U] = 0x00100193U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[5U] = 0x0020c463U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[6U] = 0x00100213U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[7U] = 0x0020d463U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[8U] = 0x00100293U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[9U] = 0x0013c463U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[10U] = 0x00100413U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[11U] = 0x0013e463U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[12U] = 0x00100493U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__imem__DOT__mem[13U] = 0x00700313U;
-    }
+    Vtb_riscv_core___024root___eval_initial__TOP(vlSelf);
     Vtb_riscv_core___024root___eval_initial__TOP__Vtiming__0(vlSelf);
     Vtb_riscv_core___024root___eval_initial__TOP__Vtiming__1(vlSelf);
 }
@@ -158,8 +123,8 @@ bool Vtb_riscv_core___024root___eval_nba(Vtb_riscv_core___024root* vlSelf) {
             if ((((1ULL & vlSelfRef.__VnbaTriggered[0U])) != 0ULL)) {
                 {
                     // Inlined CFunc: _nba_sequent__TOP__0
-                    vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_41 = 0U;
-                    vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_44 = 0U;
+                    vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_43 = 0U;
+                    vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_46 = 0U;
                     if ((1U & ((~ (::IData)(vlSelfRef.tb_riscv_core__DOT__rst)) 
                                & (~ (::IData)(vlSelfRef.tb_riscv_core__DOT__done))))) {
                         vlSelfRef.tb_riscv_core__DOT__cycles 
@@ -175,20 +140,20 @@ bool Vtb_riscv_core___024root___eval_nba(Vtb_riscv_core___024root* vlSelf) {
                         }
                     }
                     if (vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__mem_write_out) {
-                        vlSelfRef.__Vdly_Val__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_39 
+                        vlSelfRef.__Vdly_Val__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_41 
                             = vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rs2_data_out;
-                        vlSelfRef.__Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_40 
+                        vlSelfRef.__Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_42 
                             = (0x000000ffU & (vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__alu_out_out 
                                               >> 2U));
-                        vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_41 = 1U;
+                        vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_43 = 1U;
                     }
                     if (((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__reg_write_out) 
                          & (0U != (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out)))) {
-                        vlSelfRef.__Vdly_Val__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_42 
+                        vlSelfRef.__Vdly_Val__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_44 
                             = vlSelfRef.tb_riscv_core__DOT__wb_result;
-                        vlSelfRef.__Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_43 
+                        vlSelfRef.__Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_45 
                             = vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out;
-                        vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_44 = 1U;
+                        vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_46 = 1U;
                     }
                 }
                 vlSelfRef.__VtraceActivity[1U] = 1U;
@@ -200,13 +165,13 @@ bool Vtb_riscv_core___024root___eval_nba(Vtb_riscv_core___024root* vlSelf) {
             if ((((1ULL & vlSelfRef.__VnbaTriggered[0U])) != 0ULL)) {
                 {
                     // Inlined CFunc: _nba_sequent__TOP__2
-                    if (vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_41) {
-                        vlSelfRef.tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem[vlSelfRef.__Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_40] 
-                            = vlSelfRef.__Vdly_Val__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_39;
+                    if (vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_43) {
+                        vlSelfRef.tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem[vlSelfRef.__Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_42] 
+                            = vlSelfRef.__Vdly_Val__tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem_41;
                     }
-                    if (vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_44) {
-                        vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf[vlSelfRef.__Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_43] 
-                            = vlSelfRef.__Vdly_Val__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_42;
+                    if (vlSelfRef.__Vdly_Set__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_46) {
+                        vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf[vlSelfRef.__Vdly_Dim0__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_45] 
+                            = vlSelfRef.__Vdly_Val__tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf_44;
                     }
                 }
             }
@@ -255,10 +220,10 @@ VlCoroutine Vtb_riscv_core___024root___eval_initial__TOP__Vtiming__0(Vtb_riscv_c
     __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6 = 0;
     ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_7;
     __Vtask_tb_riscv_core__DOT__check_reg__expected_val_7 = 0;
-    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9;
-    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9 = 0;
-    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_10;
-    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_10 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_mem__mem_addr_9;
+    __Vtask_tb_riscv_core__DOT__check_mem__mem_addr_9 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_mem__expected_val_10;
+    __Vtask_tb_riscv_core__DOT__check_mem__expected_val_10 = 0;
     ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12;
     __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12 = 0;
     ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_13;
@@ -267,187 +232,573 @@ VlCoroutine Vtb_riscv_core___024root___eval_initial__TOP__Vtiming__0(Vtb_riscv_c
     __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15 = 0;
     ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_16;
     __Vtask_tb_riscv_core__DOT__check_reg__expected_val_16 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_19;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_19 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_22;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_22 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_25;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_25 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_28;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_28 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_31;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_31 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_34;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_34 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_37;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_37 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_40;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_40 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_43;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_43 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_46;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_46 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_49;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_49 = 0;
+    ::CData/*4:0*/ __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51 = 0;
+    ::IData/*31:0*/ __Vtask_tb_riscv_core__DOT__check_reg__expected_val_52;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_52 = 0;
     // Body
+    std::ignore = VL_VALUEPLUSARGS_INI(32, "TEST=%d"s, 
+                                       vlSelfRef.tb_riscv_core__DOT__test);
     vlSelfRef.tb_riscv_core__DOT__clk = 0U;
     vlSelfRef.tb_riscv_core__DOT__rst = 1U;
     VL_WRITEF_NX("==================================================\n STARTING RISC-V TOP-LEVEL END-TO-END CORE TEST   \n==================================================\n",0);
     co_await vlSelfRef.__Vnontrivs.__VdlySched.delay(0x0000000000004e20ULL, 
                                                      nullptr, 
                                                      "tb_riscv_core.sv", 
-                                                     86);
+                                                     88);
     vlSelfRef.tb_riscv_core__DOT__rst = 0U;
     co_await vlSelfRef.__Vnontrivs.__VdlySched.delay(0x00000000000c3500ULL, 
                                                      nullptr, 
                                                      "tb_riscv_core.sv", 
-                                                     96);
+                                                     91);
     VL_WRITEF_NX("\n--------------------------------------------------\n VERIFYING PIPELINE EXECUTION & HAZARD RESOLUTION \n--------------------------------------------------\n",0);
-    vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2 = "BNE taken: x3 skipped"s;
-    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_1 = 0U;
-    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0 = 3U;
-    vlSelfRef.tb_riscv_core__DOT__test_count = ((::IData)(1U) 
-                                                + vlSelfRef.tb_riscv_core__DOT__test_count);
-    if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0] 
-         != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_1)) {
-        VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0]
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_1
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_1);
-        vlSelfRef.tb_riscv_core__DOT__error_count = 
-            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
-    } else {
-        VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0]);
+    if ((0U == vlSelfRef.tb_riscv_core__DOT__test)) {
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2 = "ALU: addi x1"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_1 = 0x0000000aU;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0 = 1U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_1)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_1
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_1);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_0]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5 = "ALU: addi x2"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_4 = 0x00000014U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3 = 2U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_4)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_4
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_4);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8 = "Forwarding: add x3 = x1 + x2"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_7 = 0x0000001eU;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6 = 3U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_7)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_7
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_7);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_11 = "Store: mem[0] = x3"s;
+        __Vtask_tb_riscv_core__DOT__check_mem__expected_val_10 = 0x0000001eU;
+        __Vtask_tb_riscv_core__DOT__check_mem__mem_addr_9 = 0U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem
+             [(0x000000ffU & (__Vtask_tb_riscv_core__DOT__check_mem__mem_addr_9 
+                              >> 2U))] != __Vtask_tb_riscv_core__DOT__check_mem__expected_val_10)) {
+            VL_WRITEF_NX("FAIL [%s]: Mem[0x%h] = 0x%h, Expected = 0x%h\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_11)
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_mem__mem_addr_9
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem
+                         [(0x000000ffU & (__Vtask_tb_riscv_core__DOT__check_mem__mem_addr_9 
+                                          >> 2U))], '#',32,__Vtask_tb_riscv_core__DOT__check_mem__expected_val_10);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: Mem[0x%h] = 0x%h\n",3
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_11)
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_mem__mem_addr_9
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__dmem__DOT__mem
+                         [(0x000000ffU & (__Vtask_tb_riscv_core__DOT__check_mem__mem_addr_9 
+                                          >> 2U))]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14 = "Load: x4 = mem[0]"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_13 = 0x0000001eU;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12 = 4U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_13)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_13
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_13);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12]);
+        }
+    } else if ((1U == vlSelfRef.tb_riscv_core__DOT__test)) {
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17 = "BNE taken: x3 skipped"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_16 = 0U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15 = 3U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_16)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_16
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_16);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_20 = "BLT taken: x4 skipped"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_19 = 0U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18 = 4U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_19)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_20)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_19
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_19);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_20)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_18]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_23 = "BGE not taken: x5 executed"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_22 = 1U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21 = 5U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_22)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_23)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_22
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_22);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_23)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_21]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_26 = "BLT signed taken: x8 skipped"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_25 = 0U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24 = 8U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_25)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_26)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_25
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_25);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_26)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_24]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_29 = "BLTU not taken: x9 executed"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_28 = 1U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27 = 9U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_28)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_29)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_28
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_28);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_29)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_27]);
+        }
+    } else if ((2U == vlSelfRef.tb_riscv_core__DOT__test)) {
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_32 = "JAL: x3 skipped"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_31 = 0U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30 = 3U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_31)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_32)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_31
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_31);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_32)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_30]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_35 = "JAL: x4 skipped"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_34 = 0U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33 = 4U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_34)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_35)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_34
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_34);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_35)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_33]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_38 = "JAL target executed"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_37 = 1U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36 = 5U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_37)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_38)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_37
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_37);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_38)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_36]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_41 = "JAL link: x10 = PC+4"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_40 = 8U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39 = 0x0aU;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_40)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_41)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_40
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_40);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_41)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_39]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_44 = "JALR: x8 skipped"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_43 = 0U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42 = 8U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_43)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_44)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_43
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_43);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_44)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_42]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_47 = "JALR link: x12 = PC+4"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_46 = 0x0000001cU;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45 = 0x0cU;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_46)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_47)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_46
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_46);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_47)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_45]);
+        }
+        vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_50 = "JALR target: x9 = x10 + x12"s;
+        __Vtask_tb_riscv_core__DOT__check_reg__expected_val_49 = 0x00000024U;
+        __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48 = 9U;
+        vlSelfRef.tb_riscv_core__DOT__test_count = 
+            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__test_count);
+        if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+             [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48] 
+             != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_49)) {
+            VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_50)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48]
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_49
+                         , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_49);
+            vlSelfRef.tb_riscv_core__DOT__error_count 
+                = ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
+        } else {
+            VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
+                         , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_50)
+                         , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48)
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48]
+                         , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
+                         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_48]);
+        }
     }
-    vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5 = "BLT taken: x4 skipped"s;
-    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_4 = 0U;
-    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3 = 4U;
+    vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_53 = "End marker reached"s;
+    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_52 = 7U;
+    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51 = 6U;
     vlSelfRef.tb_riscv_core__DOT__test_count = ((::IData)(1U) 
                                                 + vlSelfRef.tb_riscv_core__DOT__test_count);
     if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3] 
-         != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_4)) {
+         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51] 
+         != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_52)) {
         VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3)
+                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_53)
+                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51)
                      , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3]
+                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51]
                      , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3]
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_4
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_4);
+                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51]
+                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_52
+                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_52);
         vlSelfRef.tb_riscv_core__DOT__error_count = 
             ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
     } else {
         VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3)
+                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_53)
+                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51)
                      , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3]
+                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51]
                      , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_3]);
-    }
-    vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8 = "BGE not taken: x5 executed"s;
-    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_7 = 1U;
-    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6 = 5U;
-    vlSelfRef.tb_riscv_core__DOT__test_count = ((::IData)(1U) 
-                                                + vlSelfRef.tb_riscv_core__DOT__test_count);
-    if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6] 
-         != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_7)) {
-        VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6]
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_7
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_7);
-        vlSelfRef.tb_riscv_core__DOT__error_count = 
-            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
-    } else {
-        VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_6]);
-    }
-    vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_11 = "BLT signed (-1 < 5) taken: x8 skipped"s;
-    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_10 = 0U;
-    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9 = 8U;
-    vlSelfRef.tb_riscv_core__DOT__test_count = ((::IData)(1U) 
-                                                + vlSelfRef.tb_riscv_core__DOT__test_count);
-    if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9] 
-         != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_10)) {
-        VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_11)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9]
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_10
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_10);
-        vlSelfRef.tb_riscv_core__DOT__error_count = 
-            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
-    } else {
-        VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_11)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_9]);
-    }
-    vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14 = "BLTU unsigned (0xFFFFFFFF > 5) not taken: x9 executed"s;
-    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_13 = 1U;
-    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12 = 9U;
-    vlSelfRef.tb_riscv_core__DOT__test_count = ((::IData)(1U) 
-                                                + vlSelfRef.tb_riscv_core__DOT__test_count);
-    if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12] 
-         != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_13)) {
-        VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12]
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_13
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_13);
-        vlSelfRef.tb_riscv_core__DOT__error_count = 
-            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
-    } else {
-        VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_12]);
-    }
-    vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17 = "End marker: x6 reached"s;
-    __Vtask_tb_riscv_core__DOT__check_reg__expected_val_16 = 7U;
-    __Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15 = 6U;
-    vlSelfRef.tb_riscv_core__DOT__test_count = ((::IData)(1U) 
-                                                + vlSelfRef.tb_riscv_core__DOT__test_count);
-    if ((vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-         [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15] 
-         != __Vtask_tb_riscv_core__DOT__check_reg__expected_val_16)) {
-        VL_WRITEF_NX("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)\n",6
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15]
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_16
-                     , '#',32,__Vtask_tb_riscv_core__DOT__check_reg__expected_val_16);
-        vlSelfRef.tb_riscv_core__DOT__error_count = 
-            ((::IData)(1U) + vlSelfRef.tb_riscv_core__DOT__error_count);
-    } else {
-        VL_WRITEF_NX("PASS [%s]: x%0d = 0x%h (%0d)\n",4
-                     , 'S',&(vlSelfRef.__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17)
-                     , '#',5,(::IData)(__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15)
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15]
-                     , '#',32,vlSelfRef.tb_riscv_core__DOT__uut__DOT__u_regfile__DOT__rf
-                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_15]);
+                     [__Vtask_tb_riscv_core__DOT__check_reg__reg_addr_51]);
     }
     VL_WRITEF_NX("==================================================\n",0);
     if ((0U == vlSelfRef.tb_riscv_core__DOT__error_count)) {
@@ -520,34 +871,37 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
     Vtb_riscv_core__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Locals
-    ::CData/*0:0*/ __Vdfg_Regularize_266;
-    __Vdfg_Regularize_266 = 0;
-    ::CData/*0:0*/ __Vdfg_Regularize_267;
-    __Vdfg_Regularize_267 = 0;
-    ::IData/*31:0*/ __Vdfg_Regularize_269;
-    __Vdfg_Regularize_269 = 0;
-    ::CData/*0:0*/ __Vdfg_Regularize_270;
-    __Vdfg_Regularize_270 = 0;
-    ::CData/*0:0*/ __Vdfg_Regularize_271;
-    __Vdfg_Regularize_271 = 0;
-    ::CData/*0:0*/ __Vdfg_Regularize_272;
-    __Vdfg_Regularize_272 = 0;
-    ::IData/*31:0*/ __Vdfg_Regularize_274;
+    ::CData/*0:0*/ __Vdfg_Regularize_274;
     __Vdfg_Regularize_274 = 0;
+    ::CData/*0:0*/ __Vdfg_Regularize_275;
+    __Vdfg_Regularize_275 = 0;
+    ::IData/*31:0*/ __Vdfg_Regularize_277;
+    __Vdfg_Regularize_277 = 0;
+    ::CData/*0:0*/ __Vdfg_Regularize_278;
+    __Vdfg_Regularize_278 = 0;
+    ::CData/*0:0*/ __Vdfg_Regularize_279;
+    __Vdfg_Regularize_279 = 0;
+    ::CData/*0:0*/ __Vdfg_Regularize_280;
+    __Vdfg_Regularize_280 = 0;
+    ::IData/*31:0*/ __Vdfg_Regularize_282;
+    __Vdfg_Regularize_282 = 0;
     // Body
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__zero_out 
         = ((1U & (~ (::IData)(vlSelfRef.tb_riscv_core__DOT__rst))) 
            && (0U == vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_alu_out));
+    vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__jalr_out 
+        = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
+                     | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
+           && (1U & (::IData)(vlSelfRef.__Vdfg_Regularize_273)));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__alu_src_out 
         = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
                      | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
-           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_265) 
-                     >> 5U)));
+           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_273) 
+                     >> 6U)));
     if (((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
          | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush))) {
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__imm_out = 0U;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__alu_op_out = 0U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__pc_out = 0U;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs1_addr_out = 0U;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs2_addr_out = 0U;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out = 0U;
@@ -557,10 +911,8 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__imm_out 
             = vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_imm;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__alu_op_out 
-            = (3U & ((::IData)(vlSelfRef.__Vdfg_Regularize_265) 
-                     >> 7U));
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__pc_out 
-            = vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__pc_out;
+            = (3U & ((::IData)(vlSelfRef.__Vdfg_Regularize_273) 
+                     >> 8U));
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs1_addr_out 
             = (0x0000001fU & (vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
                               >> 0x0000000fU));
@@ -601,8 +953,6 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__read_data_out = 0U;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rs2_data_out = 0U;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__alu_out_out = 0U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out = 0U;
-        vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rd_addr_out = 0U;
     } else {
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__branch_target_out 
             = vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_branch_target;
@@ -616,7 +966,18 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rs2_data_out 
             = vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__alu_out_out 
-            = vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_alu_out;
+            = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__jump_out)
+                ? ((::IData)(4U) + vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__pc_out)
+                : vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_alu_out);
+    }
+    vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__pc_out 
+        = (((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
+            | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush))
+            ? 0U : vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__pc_out);
+    if (vlSelfRef.tb_riscv_core__DOT__rst) {
+        vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out = 0U;
+        vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rd_addr_out = 0U;
+    } else {
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out 
             = vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rd_addr_out;
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rd_addr_out 
@@ -652,28 +1013,25 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__branch_out 
         = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
                      | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
-           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_265) 
-                     >> 1U)));
-    vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_branch_target 
-        = (vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__imm_out 
-           + vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__pc_out);
+           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_273) 
+                     >> 2U)));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__mem_to_reg_out 
         = ((1U & (~ (::IData)(vlSelfRef.tb_riscv_core__DOT__rst))) 
            && (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__mem_to_reg_out));
-    __Vdfg_Regularize_266 = (1U & Vtb_riscv_core__ConstPool__CONSARRAY_1
+    __Vdfg_Regularize_274 = (1U & Vtb_riscv_core__ConstPool__CONSARRAY_1
                              [((((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__op_bit5_out) 
                                  << 6U) | ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct7_5_out) 
                                            << 5U)) 
                                | (((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out) 
                                    << 2U) | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__alu_op_out)))]);
-    __Vdfg_Regularize_267 = (1U & (Vtb_riscv_core__ConstPool__CONSARRAY_1
+    __Vdfg_Regularize_275 = (1U & (Vtb_riscv_core__ConstPool__CONSARRAY_1
                                    [((((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__op_bit5_out) 
                                        << 6U) | ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct7_5_out) 
                                                  << 5U)) 
                                      | (((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out) 
                                          << 2U) | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__alu_op_out)))] 
                                    >> 1U));
-    __Vdfg_Regularize_272 = (1U & (Vtb_riscv_core__ConstPool__CONSARRAY_1
+    __Vdfg_Regularize_280 = (1U & (Vtb_riscv_core__ConstPool__CONSARRAY_1
                                    [((((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__op_bit5_out) 
                                        << 6U) | ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct7_5_out) 
                                                  << 5U)) 
@@ -695,27 +1053,35 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__mem_write_out 
         = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
                      | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
-           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_265) 
-                     >> 2U)));
+           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_273) 
+                     >> 3U)));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__mem_to_reg_out 
         = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
                      | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
-           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_265) 
-                     >> 4U)));
+           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_273) 
+                     >> 5U)));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__mem_read_out 
         = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
                      | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
-           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_265) 
-                     >> 3U)));
+           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_273) 
+                     >> 4U)));
+    vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__jump_out 
+        = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
+                     | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
+           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_273) 
+                     >> 1U)));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__reg_write_out 
         = ((1U & (~ (::IData)(vlSelfRef.tb_riscv_core__DOT__rst))) 
            && (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__reg_write_out));
-    __Vdfg_Regularize_271 = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__reg_write_out) 
+    __Vdfg_Regularize_279 = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__reg_write_out) 
                              & (0U != (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out)));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__valid_out 
         = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
                      | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
            && (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__valid_out));
+    vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_branch_target 
+        = (vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__imm_out 
+           + vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__pc_out);
     if (((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
          | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id_flush))) {
         vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__pc_out = 0U;
@@ -739,24 +1105,24 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__reg_write_out 
         = ((1U & (~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__rst) 
                      | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush)))) 
-           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_265) 
-                     >> 6U)));
-    __Vdfg_Regularize_270 = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__reg_write_out) 
+           && (1U & ((::IData)(vlSelfRef.__Vdfg_Regularize_273) 
+                     >> 7U)));
+    __Vdfg_Regularize_278 = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__reg_write_out) 
                              & (0U != (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rd_addr_out)));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_a 
         = ((((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs1_addr_out) 
              == (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rd_addr_out)) 
-            & (::IData)(__Vdfg_Regularize_270)) ? 2U
+            & (::IData)(__Vdfg_Regularize_278)) ? 2U
             : (1U & (- (::IData)((((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out) 
                                    == (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs1_addr_out)) 
-                                  & (::IData)(__Vdfg_Regularize_271))))));
+                                  & (::IData)(__Vdfg_Regularize_279))))));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b 
         = ((((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs2_addr_out) 
              == (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__rd_addr_out)) 
-            & (::IData)(__Vdfg_Regularize_270)) ? 2U
+            & (::IData)(__Vdfg_Regularize_278)) ? 2U
             : (1U & (- (::IData)((((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__mem_wb__DOT__rd_addr_out) 
                                    == (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__rs2_addr_out)) 
-                                  & (::IData)(__Vdfg_Regularize_271))))));
+                                  & (::IData)(__Vdfg_Regularize_279))))));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
         = ((2U == (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_a))
             ? vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_mem__DOT__alu_out_out
@@ -774,38 +1140,39 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
             ? vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__imm_out
             : vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data);
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id_flush 
-        = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__branch_out) 
-           & ((4U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
-               ? ((2U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
-                   ? ((1U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
-                       ? (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
-                          >= vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)
-                       : (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
-                          < vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data))
-                   : ((1U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
-                       ? VL_GTES_III(32, vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1, vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)
-                       : VL_LTS_III(32, vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1, vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)))
-               : ((~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out) 
-                      >> 1U)) & ((1U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
-                                  ? (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
-                                     != vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)
-                                  : (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
-                                     == vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)))));
+        = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__jump_out) 
+           | ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__branch_out) 
+              & ((4U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
+                  ? ((2U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
+                      ? ((1U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
+                          ? (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
+                             >= vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)
+                          : (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
+                             < vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data))
+                      : ((1U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
+                          ? VL_GTES_III(32, vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1, vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)
+                          : VL_LTS_III(32, vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1, vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)))
+                  : ((~ ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out) 
+                         >> 1U)) & ((1U & (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out))
+                                     ? (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
+                                        != vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data)
+                                     : (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
+                                        == vlSelfRef.tb_riscv_core__DOT__uut__DOT__forward_b_data))))));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_alu_out 
         = ((8U & Vtb_riscv_core__ConstPool__CONSARRAY_1
             [((((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__op_bit5_out) 
                 << 6U) | ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct7_5_out) 
                           << 5U)) | (((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__funct3_out) 
                                       << 2U) | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__alu_op_out)))])
-            ? ((- (::IData)((1U & (~ (::IData)(__Vdfg_Regularize_267))))) 
-               & (((::IData)(__Vdfg_Regularize_266)
+            ? ((- (::IData)((1U & (~ (::IData)(__Vdfg_Regularize_275))))) 
+               & (((::IData)(__Vdfg_Regularize_274)
                     ? (1U & (- (::IData)((vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
                                           < vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in2))))
                     : (1U & (- (::IData)(VL_LTS_III(32, vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1, vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in2))))) 
-                  & (- (::IData)((1U & (~ (::IData)(__Vdfg_Regularize_272)))))))
-            : ((::IData)(__Vdfg_Regularize_272) ? ((::IData)(__Vdfg_Regularize_267)
+                  & (- (::IData)((1U & (~ (::IData)(__Vdfg_Regularize_280)))))))
+            : ((::IData)(__Vdfg_Regularize_280) ? ((::IData)(__Vdfg_Regularize_275)
                                                     ? 
-                                                   ((::IData)(__Vdfg_Regularize_266)
+                                                   ((::IData)(__Vdfg_Regularize_274)
                                                      ? 
                                                     VL_SHIFTRS_III(32,32,5, vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1, 
                                                                    (0x0000001fU 
@@ -816,7 +1183,7 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
                                                      (0x0000001fU 
                                                       & vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in2)))
                                                     : 
-                                                   ((::IData)(__Vdfg_Regularize_266)
+                                                   ((::IData)(__Vdfg_Regularize_274)
                                                      ? 
                                                     (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
                                                      << 
@@ -825,28 +1192,28 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
                                                      : 
                                                     (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
                                                      ^ vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in2)))
-                : ((::IData)(__Vdfg_Regularize_267)
-                    ? ((::IData)(__Vdfg_Regularize_266)
+                : ((::IData)(__Vdfg_Regularize_275)
+                    ? ((::IData)(__Vdfg_Regularize_274)
                         ? (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
                            | vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in2)
                         : (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
                            & vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in2))
-                    : ((::IData)(__Vdfg_Regularize_266)
+                    : ((::IData)(__Vdfg_Regularize_274)
                         ? (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
                            - vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in2)
                         : (vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in1 
                            + vlSelfRef.tb_riscv_core__DOT__uut__DOT__alu_in2)))));
-    vlSelfRef.__Vdfg_Regularize_265 = (0x000001ffU 
+    vlSelfRef.__Vdfg_Regularize_273 = (0x000003ffU 
                                        & Vtb_riscv_core__ConstPool__CONST_0
                                        [(0x0000007fU 
                                          & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out)]);
-    __Vdfg_Regularize_269 = ((((- (::IData)((vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
+    __Vdfg_Regularize_277 = ((((- (::IData)((vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
                                              >> 0x0000001fU))) 
                                << 0x0000000cU) | (vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
                                                   >> 0x00000014U)) 
                              & (- (::IData)((3U == 
                                              (3U & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out)))));
-    __Vdfg_Regularize_274 = (0xfffff000U & (vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
+    __Vdfg_Regularize_282 = (0xfffff000U & (vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
                                             & (- (::IData)(
                                                            (3U 
                                                             == 
@@ -874,7 +1241,7 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
                                                 >> 0x00000014U)))) 
                      & (- (::IData)((7U == (7U & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out)))))
                   : ((4U & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out)
-                      ? __Vdfg_Regularize_269 : (((
+                      ? __Vdfg_Regularize_277 : (((
                                                    (- (::IData)(
                                                                 (vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
                                                                  >> 0x0000001fU))) 
@@ -903,7 +1270,7 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
              ? ((0x00000010U & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out)
                  ? ((- (::IData)((::IData)((4U == (0x0000000cU 
                                                    & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out))))) 
-                    & __Vdfg_Regularize_274) : ((((- (::IData)(
+                    & __Vdfg_Regularize_282) : ((((- (::IData)(
                                                                (vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
                                                                 >> 0x0000001fU))) 
                                                   << 0x0000000cU) 
@@ -920,10 +1287,10 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
                                                                            & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out)))))))
              : ((0x00000010U & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out)
                  ? (((4U & vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out)
-                      ? __Vdfg_Regularize_274 : __Vdfg_Regularize_269) 
+                      ? __Vdfg_Regularize_282 : __Vdfg_Regularize_277) 
                     & (- (::IData)((1U & (~ (vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
                                              >> 3U))))))
-                 : (__Vdfg_Regularize_269 & ((- (::IData)(
+                 : (__Vdfg_Regularize_277 & ((- (::IData)(
                                                           (1U 
                                                            & (~ 
                                                               (vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id__DOT__instr_out 
@@ -944,11 +1311,13 @@ void Vtb_riscv_core___024root___nba_sequent__TOP__1(Vtb_riscv_core___024root* vl
                                        >> 0x00000014U))))));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__next_pc 
         = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id_flush)
-            ? vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_branch_target
+            ? ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex__DOT__jalr_out)
+                ? (0xfffffffeU & vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_alu_out)
+                : vlSelfRef.tb_riscv_core__DOT__uut__DOT__ex_branch_target)
             : ((::IData)(4U) + vlSelfRef.tb_riscv_core__DOT__uut__DOT__pc));
     vlSelfRef.tb_riscv_core__DOT__uut__DOT__id_ex_flush 
-        = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id_flush) 
-           | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__pc_stall));
+        = ((::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__pc_stall) 
+           | (::IData)(vlSelfRef.tb_riscv_core__DOT__uut__DOT__if_id_flush));
 }
 
 void Vtb_riscv_core___024root___trigger_orInto__act_vec_vec(::VlUnpacked<::QData/*63:0*/, 1> &out, const ::VlUnpacked<::QData/*63:0*/, 1> &in) {

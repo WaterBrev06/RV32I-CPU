@@ -9,6 +9,7 @@ module control_unit(
     output logic mem_write,
     output logic branch,
     output logic jump,
+    output logic jalr,
     output logic[1:0] alu_op
     );
     
@@ -28,6 +29,7 @@ module control_unit(
         mem_write  = 1'b0;
         branch     = 1'b0;
         jump       = 1'b0;
+        jalr       = 1'b0;
         alu_op     = 2'b00;
         
         case (opcode)
@@ -65,14 +67,15 @@ module control_unit(
             OP_JAL: begin
                 reg_write = 1'b1;
                 jump = 1'b1;
-                alu_op = 2'b01;
+                alu_op = 2'b00;
             end
             
             OP_JALR: begin
                 reg_write = 1'b1;
                 alu_src = 1'b1;
                 jump = 1'b1;
-                alu_op = 2'b01;
+                jalr = 1'b1;
+                alu_op = 2'b00;
             end
             
             default: begin

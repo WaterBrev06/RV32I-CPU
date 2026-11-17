@@ -72,8 +72,10 @@ module tb_riscv_core;
         $dumpvars(0, tb_riscv_core);
     end
 
-
+    int test = 0;
     initial begin
+        void'($value$plusargs("TEST=%d", test));
+
         // Initialize signals
         clk = 0;
         rst = 1;
@@ -86,40 +88,38 @@ module tb_riscv_core;
         #20;
         rst = 0;
 
-        // Allow 40 clock cycles (800ns) for the test program to cycle through all 5 pipeline stages
-        // Executing pre-loaded program in instr_mem:
-        // [0] addi x1, x0, 10   (x1 <= 10)
-        // [1] addi x2, x0, 20   (x2 <= 20)
-        // [2] add  x3, x1, x2   (x3 <= 30, relies on EX-to-EX forwarding)
-        // [3] sw   x3, 0(x0)    (mem[0] <= 30)
-        // [4] lw   x4, 0(x0)    (x4 <= 30, tests MEM-to-EX/WB datapath)
         #800;
 
         $display("\n--------------------------------------------------");
         $display(" VERIFYING PIPELINE EXECUTION & HAZARD RESOLUTION ");
         $display("--------------------------------------------------");
 
-        // // 1. Verify Immediate Addition (addi x1, x0, 10)
-        // check_reg(5'd1, 32'd10, "1. Immediate Addition into x1");
-
-        // // 2. Verify Second Immediate Addition (addi x2, x0, 20)
-        // check_reg(5'd2, 32'd20, "2. Immediate Addition into x2");
-
-        // // 3. Verify Forwarded R-Type ADD (add x3, x1, x2)
-        // check_reg(5'd3, 32'd30, "3. RAW Hazard Forwarded Addition into x3");
-
-        // // 4. Verify Store Word (sw x3, 0(x0))
-        // check_mem(32'd0, 32'd30, "4. Store Word to Data Memory Addr 0x0");
-
-        // // 5. Verify Load Word (lw x4, 0(x0))
-        // check_reg(5'd4, 32'd30, "5. Load Word from Data Memory into x4");
-
-        check_reg(5'd3, 32'd0, "BNE taken: x3 skipped");
-        check_reg(5'd4, 32'd0, "BLT taken: x4 skipped");
-        check_reg(5'd5, 32'd1, "BGE not taken: x5 executed");
-        check_reg(5'd8, 32'd0, "BLT signed (-1 < 5) taken: x8 skipped");
-        check_reg(5'd9, 32'd1, "BLTU unsigned (0xFFFFFFFF > 5) not taken: x9 executed");
-        check_reg(5'd6, 32'd7, "End marker: x6 reached");
+        case (test)
+            0: begin
+                check_reg(5'd1, 32'd10, "ALU: addi x1");
+                check_reg(5'd2, 32'd20, "ALU: addi x2");
+                check_reg(5'd3, 32'd30, "Forwarding: add x3 = x1 + x2");
+                check_mem(32'd0, 32'd30, "Store: mem[0] = x3");
+                check_reg(5'd4, 32'd30, "Load: x4 = mem[0]");
+            end
+            1: begin
+                check_reg(5'd3, 32'd0, "BNE taken: x3 skipped");
+                check_reg(5'd4, 32'd0, "BLT taken: x4 skipped");
+                check_reg(5'd5, 32'd1, "BGE not taken: x5 executed");
+                check_reg(5'd8, 32'd0, "BLT signed taken: x8 skipped");
+                check_reg(5'd9, 32'd1, "BLTU not taken: x9 executed");
+            end
+            2: begin
+                check_reg(5'd3,  32'd0,  "JAL: x3 skipped");
+                check_reg(5'd4,  32'd0,  "JAL: x4 skipped");
+                check_reg(5'd5,  32'd1,  "JAL target executed");
+                check_reg(5'd10, 32'd8,  "JAL link: x10 = PC+4");
+                check_reg(5'd8,  32'd0,  "JALR: x8 skipped");
+                check_reg(5'd12, 32'd28, "JALR link: x12 = PC+4");
+                check_reg(5'd9,  32'd36, "JALR target: x9 = x10 + x12");
+            end
+        endcase
+        check_reg(5'd6, 32'd7, "End marker reached");   // all three programs end with it
 
         // Verification Summary
         $display("==================================================");

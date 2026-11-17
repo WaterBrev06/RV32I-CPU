@@ -14,6 +14,8 @@ module id_ex_reg(
     input  logic        branch_in,
     input  logic        alu_src_in,
     input  logic [1:0]  alu_op_in,
+    input  logic        jump_in,
+    input  logic        jalr_in,
 
     // Data Inputs
     input  logic [31:0] pc_in,
@@ -28,6 +30,8 @@ module id_ex_reg(
     input  logic [4:0]  rd_addr_in,
 
     output logic        valid_out,
+    output logic        jump_out,
+    output logic        jalr_out,
     // Control Outputs
     output logic        reg_write_out,
     output logic        mem_to_reg_out,
@@ -72,6 +76,8 @@ module id_ex_reg(
             rs2_addr_out   <= 5'd0;
             rd_addr_out    <= 5'd0;
             valid_out      <= 0;
+            jump_out       <= 0;
+            jalr_out       <= 0;
         end else begin
             reg_write_out  <= reg_write_in;
             mem_to_reg_out <= mem_to_reg_in;
@@ -92,6 +98,8 @@ module id_ex_reg(
             rs2_addr_out   <= rs2_addr_in;
             rd_addr_out    <= rd_addr_in;
             valid_out      <= valid_in;
+            jump_out       <= jump_in;
+            jalr_out       <= jalr_in;
         end
     end
     
