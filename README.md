@@ -1,17 +1,42 @@
 # 32-Bit 5-Stage Pipelined RISC-V (RV32I) Processor Core
 
-A fully compliant, 32-bit 5-stage pipelined RISC-V (RV32I) CPU core written in SystemVerilog. Designed for target synthesis on Xilinx FPGAs (50 MHz) and verified via cycle-accurate behavioral simulations in Xilinx Vivado. Features full dynamic hazard handling, hardware forwarding, and custom inter-stage pipeline registers.
+A 32-bit, 5-stage pipelined RISC-V processor written in SystemVerilog. It implements the RV32I integer computation, control-flow and word load/store instructions, with full hazard handling: forwarding, load-use stalls, branch/jump flushes and a register-file write-through bypass. Verified with self-checking directed tests in Verilator, with pipeline valid bits and performance counters to measure IPC.
 
 ---
 
-## Key Performance & Architectural Metrics
+## Key Metrics
 
-* **Target Clock Frequency:** 50 MHz
-* **Sustained Performance:** ~0.88 IPC (accounted for branch flushes and load-use stalls)
-* **Pipeline Depth:** 5 Stages (`IF`, `ID`, `EX`, `MEM`, `WB`)
-* **ALU Operations:** 10 Parameterized Functions (`ADD`, `SUB`, `AND`, `OR`, `XOR`, `SLL`, `SRL`, `SRA`, `SLT`, `SLTU`)
-* **Hazard Resolution:** 4-bit Control Routing (`forward_a[1:0]`, `forward_b[1:0]`) for EX/MEM and MEM/WB bypass paths
-* **Register File:** 32-Word Dual-Port Asynchronous Read / Synchronous Write ($x0$ hardwired to 0)
+* **Pipeline depth:** 5 stages (`IF`, `ID`, `EX`, `MEM`, `WB`)
+* **Branch/jump resolution:** EX stage, 2-cycle penalty for a taken branch or jump
+* **Load-use penalty:** 1 stall cycle
+* **ALU:** 10 operations (`ADD`, `SUB`, `AND`, `OR`, `XOR`, `SLL`, `SRL`, `SRA`, `SLT`, `SLTU`)
+* **Register file:** 32 x 32-bit, dual asynchronous read / synchronous write, write-through bypass, `x0` hardwired to 0
+* **Memories:** 1 KB instruction memory, 1 KB data memory (word-addressed)
+* **Target clock:** 50 MHz (testbench clock; FPGA timing not yet closed)
+* **Measured IPC** (retired instructions / cycles, including the 4-cycle pipeline fill):
+
+| Test program | Retired | Cycles | IPC |
+| --- | --- | --- | --- |
+| 0: ALU, forwarding, load/store | 6 | 10 | 0.60 |
+| 1: All branch types | 11 | 21 | 0.52 |
+| 2: JAL / JALR | 7 | 15 | 0.47 |
+
+These are short directed tests, so the pipeline fill and taken-branch bubbles dominate. On long programs IPC approaches 1 minus the branch and load-use penalties.
+
+---
+
+## Supported Instructions
+
+| Class | Instructions | Status |
+| --- | --- | --- |
+| R-type ALU | `add sub and or xor sll srl sra slt sltu` | Supported |
+| I-type ALU | `addi andi ori xori slli srli srai slti sltiu` | Supported |
+| Loads / stores | `lw`, `sw` | Supported |
+| Branches | `beq bne blt bge bltu bgeu` | Supported |
+| Jumps | `jal`, `jalr` | Supported |
+| Upper immediates | `lui`, `auipc` | Not yet |
+| Sub-word memory | `lb lh lbu lhu sb sh` | Not yet |
+| System | `fence`, `ecall`, `ebreak` | Not yet |
 
 ---
 
@@ -21,79 +46,153 @@ A fully compliant, 32-bit 5-stage pipelined RISC-V (RV32I) CPU core written in S
        +-----------------------------------------------------------------------------------+
        |                                   HAZARD UNIT                                     |
        +-----------------------------------------------------------------------------------+
-         |               |                 |                                             |
-         v (Stall/Flush) v (Flush)         v (Flush)                                     |
-    +---------+     +---------+       +---------+       +---------+       +---------+    |
-    |   IF    | --> |   ID    | ----> |   EX    | ----> |   MEM   | ----> |   WB    |    |
-    | (Fetch) |     | (Decode)|       |(Execute)|       |(Memory) |       |(Write-B)|    |
-    +---------+     +---------+       +---------+       +---------+       +---------+    |
-         |               |                 |                 |                 |         |
-     instr_mem        regfile             alu            data_mem          regfile       |
-                      immgen          alu_control                          (write)       |
-                         |                 ^                 |                 |         |
-                         |                 |                 |                 |         |
-                         +-----------------+-----------------+-----------------+         |
-                                           |                                             |
-                                    FORWARDING UNIT <------------------------------------+
-
+         |               |                 |
+         v (Stall)       v (Stall/Flush)   v (Flush)
+    +---------+     +---------+       +---------+       +---------+       +---------+
+    |   IF    | --> |   ID    | ----> |   EX    | ----> |   MEM   | ----> |   WB    |
+    | (Fetch) |     | (Decode)|       |(Execute)|       |(Memory) |       |(Write-B)|
+    +---------+     +---------+       +---------+       +---------+       +---------+
+         ^               |                 |                 |                 |
+     instr_mem        regfile             alu            data_mem          regfile
+         |            immgen          branch_unit                          (write)
+         |         control_unit       alu_control
+         |                                 |
+         +------ branch / jump target ------+
+                                           ^
+                                    FORWARDING UNIT  (from EX/MEM and MEM/WB)
 ```
 
 ### Pipeline Breakdown
 
-1. **Instruction Fetch (IF):** Increments PC by 4 or branches to target; fetches instructions from `instr_mem.sv`.
-2. **Instruction Decode (ID):** Decodes opcodes via `control_unit.sv`, reads `regfile.sv`, and sign-extends immediates with `immgen.sv`.
-3. **Execute (EX):** Resolves ALU operations via `alu.sv` and `alu_control.sv`. Handles input operand multiplexing driven by `forwarding_unit.sv`. Evaluates branch target conditions.
-4. **Memory (MEM):** Synchronously writes or combinationally reads data memory (`data_mem.sv`). 
-5. **Write-Back (WB):** Selects between memory load data and ALU execution results to write back into the register file.
+1. **Instruction Fetch (IF):** Selects PC + 4 or the branch/jump target from EX, and fetches the instruction from `instr_mem.sv`.
+2. **Instruction Decode (ID):** Decodes the opcode in `control_unit.sv`, reads `regfile.sv` and builds the immediate in `immgen.sv`. Control signals are decoded once here and travel down the pipeline with the instruction.
+3. **Execute (EX):** Runs the ALU on forwarded operands. `branch_unit.sv` evaluates all six branch conditions (signed and unsigned). Branch and JAL targets are `PC + imm`; the JALR target is `(rs1 + imm) & ~1`. A taken branch or any jump redirects the PC and flushes IF/ID and ID/EX. Jumps compute their write-back value (PC + 4) here, so every forwarding path sees the final result.
+4. **Memory (MEM):** Synchronous write and combinational read of `data_mem.sv`.
+5. **Write-Back (WB):** Selects the loaded data or the EX result and writes it to the register file.
+
+### Hazard Handling
+
+| Hazard | Mechanism |
+| --- | --- |
+| RAW, producer 1 instruction ahead | Forward from EX/MEM (`forward = 2'b10`) |
+| RAW, producer 2 instructions ahead | Forward from MEM/WB (`forward = 2'b01`) |
+| RAW, producer 3 instructions ahead | Register-file write-through bypass (WB writes and ID reads the same register in one cycle) |
+| Load-use | Stall PC and IF/ID for one cycle, insert a bubble into ID/EX |
+| Taken branch / jump | Resolve in EX, flush IF/ID and ID/EX (2 bubbles) |
+
+### Valid Bits and Performance Counters
+
+A `valid` bit travels through every pipeline register. It is set when an instruction is fetched and cleared on reset, flush or bubble insertion. The testbench counts cycles and retired instructions (`wb_valid`) until each program's end marker retires, which gives the IPC figures above.
 
 ---
 
-## Project Structure & File Manifest
+## Project Structure
 
 | File | Type | Description |
 | --- | --- | --- |
-| `riscv_core.sv` | Top Module | Integrates all 5 datapath stages, pipeline registers, and control units. |
-| `instr_mem.sv` | Design | 1 KB Instruction Memory (ROM) initialized with sample test instructions. |
-| `data_mem.sv` | Design | 1 KB Data Memory (RAM) supporting synchronous writes and combinational reads. |
-| `regfile.sv` | Design | 32 $\times$ 32-bit dual-port register file with hardwired zero register (`x0`). |
-| `alu.sv` | Design | 32-bit 10-operation Arithmetic Logic Unit. |
-| `alu_control.sv` | Design | Decodes `alu_op`, `funct3`, and `funct7` bits into 4-bit ALU control lines. |
-| `control_unit.sv` | Design | Main decoder generating single-bit pipeline control signals based on opcode. |
-| `immgen.sv` | Design | Immediate generator for I, S, B, U, and J instruction formats. |
-| `if_id_reg.sv` | Pipeline Reg | IF/ID register supporting stall and flush controls. |
-| `id_ex_reg.sv` | Pipeline Reg | ID/EX register supporting flush control for stall injection. |
-| `ex_mem_reg.sv` | Pipeline Reg | EX/MEM register passing ALU outputs and write registers. |
-| `mem_wb_reg.sv` | Pipeline Reg | MEM/WB register passing read data and ALU results to Write-Back. |
-| `forwarding_unit.sv` | Control | Bypasses RAW hazards by routing EX/MEM and MEM/WB values to EX. |
-| `hazard_unit.sv` | Control | Detects load-use dependencies and triggers pipeline stalls/flushes. |
-| `tb_riscv_core.sv` | Testbench | Top-level self-checking integration testbench executing multi-instruction workloads. |
+| `riscv_core.sv` | Top module | Integrates the 5 stages, pipeline registers and control units |
+| `instr_mem.sv` | Design | 1 KB instruction ROM; the test program is selected at runtime with `+TEST=N` |
+| `data_mem.sv` | Design | 1 KB data RAM, synchronous write, combinational read |
+| `regfile.sv` | Design | 32 x 32-bit register file with write-through bypass and hardwired `x0` |
+| `alu.sv` | Design | 32-bit, 10-operation ALU |
+| `alu_control.sv` | Design | Decodes `alu_op`, `funct3`, `funct7` into ALU control |
+| `branch_unit.sv` | Design | Evaluates BEQ/BNE/BLT/BGE/BLTU/BGEU on forwarded operands |
+| `control_unit.sv` | Design | Main decoder, including `jump` and `jalr` |
+| `immgen.sv` | Design | Immediate generator for I, S, B, U and J formats |
+| `if_id_reg.sv` | Pipeline reg | IF/ID with stall, flush and valid bit |
+| `id_ex_reg.sv` | Pipeline reg | ID/EX with flush (bubble insertion) and valid bit |
+| `ex_mem_reg.sv` | Pipeline reg | EX/MEM with valid bit |
+| `mem_wb_reg.sv` | Pipeline reg | MEM/WB with valid bit |
+| `forwarding_unit.sv` | Control | EX/MEM and MEM/WB bypass selection |
+| `hazard_unit.sv` | Control | Load-use stall and branch/jump flush |
+| `tb_riscv_core.sv` | Testbench | Self-checking integration tests, IPC counters |
+| `tb_alu.sv`, `tb_regfile.sv`, `tb_imm_gen.sv` | Testbench | Unit tests |
+| `run_all.sh` | Script | Builds once and runs every test program |
 
 ---
 
-<!--## Verification & Simulation Screenshots
+## Running the Tests
 
-### 1. Top-Level Core Execution (`tb_riscv_core.sv`)
+Requires [Verilator](https://verilator.org) 5.x (`brew install verilator` on macOS).
 
-Self-checking testbench confirming end-to-end instruction execution, immediate load, register write-back, and RAM access.
+```bash
+./run_all.sh                       # build once, run all three test programs
+./obj_dir/Vtb_riscv_core +TEST=1   # run a single program
+```
 
-> **Insert Console Output Screenshot Below:**
-> *Figure 1: Vivado Tcl Console verifying successful completion of all 5 end-to-end pipeline integration tests.*
+Each run writes `wave.vcd`, which opens in [Surfer](https://surfer-project.org) (`surfer wave.vcd`) or GTKWave.
+
+Lint:
+
+```bash
+verilator --lint-only -Wall riscv_core.sv *_reg.sv alu*.sv control_unit.sv immgen.sv \
+  regfile.sv instr_mem.sv data_mem.sv forwarding_unit.sv hazard_unit.sv branch_unit.sv
+```
+
+Unused address bits in the word-addressed memories are waived with a documented reason.
 
 ---
 
-### 2. Pipeline Execution Waveform & RAW Hazard Bypass
+## Verification
 
-Waveform snippet illustrating the execution of dependent instructions (`add x3, x1, x2` immediately following `addi x1` and `addi x2`). Demonstrates dynamic EX-to-EX forwarding without inserting pipeline bubbles.
+| Test | Covers |
+| --- | --- |
+| `+TEST=0` | ALU immediates, EX/MEM and MEM/WB forwarding into an `add`, forwarding store data, store then load |
+| `+TEST=1` | Every branch type taken and not taken, signed vs unsigned comparison with a negative operand, forwarding into branch operands |
+| `+TEST=2` | JAL and JALR redirect and flush, link register = PC + 4, forwarding into the JALR base register |
 
-> **Insert Waveform Screenshot Below:**
-> *Figure 2: Behavioral simulation waveform showing `forward_a` and `forward_b` switching to `2'b10` to resolve RAW data dependencies in the EX stage.*
+Each program ends with `addi x6, x0, 7`, which marks the end for the IPC counters and is checked as the last test.
+
+### Bugs Found and Fixed
+
+| Bug | How it was found | Fix |
+| --- | --- | --- |
+| A dependency exactly 3 instructions apart read a stale register (WB writes at the edge while ID reads in the same cycle; the producer has left the forwarding window) | Design review, confirmed by a directed distance-3 test that failed | Write-through bypass in the register file |
+| A taken branch flushed only 2 of the 3 wrong-path instructions (branches resolved in MEM) | Design review, confirmed by a taken-branch test | Branches resolve in EX, matching the 2-stage flush |
+| A load-use stall in the same cycle as a taken branch could drop the branch target | Design review | Removed by resolving branches in EX (a branch and a load can no longer both be in EX) |
+| JAL/JALR decoded but never redirected the PC | Verilator lint: unused `jump` signal | Implemented jumps |
+| Performance counter reported 8 retired instructions for a 6-instruction program | IPC prediction did not match measurement; traced in the waveform | The valid bit was combinational in EX/MEM and MEM/WB; now registered |
 
 ---
 
-### 3. Immediate Generator Unit Test (`tb_immgen.sv`)
+## Corrections to Earlier Claims
 
-Self-checking unit verification covering all 5 RISC-V sign-extension formats (I, S, B, U, J), including negative sign extension and alignment handling.
+Earlier versions of this README and my resume made claims the repository did not support. They have been corrected as follows.
 
-> **Insert Unit Test Screenshot Below:**
-> *Figure 3: Verification harness confirming sign-extension and bit-reconstruction for all 5 immediate types.*-->
+**"Full RV32I ISA compliance."** This was not true.
+* The control unit decoded `jal` and `jalr`, but the `jump` signal was never connected, so jumps did not change the PC.
+* Branches were taken when `branch && zero`, which is only correct for `beq`. `bne`, `blt`, `bge`, `bltu` and `bgeu` all behaved like `beq`.
+* `lui`, `auipc`, byte/halfword loads and stores, and `fence`/`ecall`/`ebreak` were not implemented, and still are not.
+* Compliance means passing the official `riscv-tests` suite, which was never run.
 
+Branches and jumps are now implemented and tested. The core is described as implementing a subset of RV32I until the remaining instructions are added and the compliance suite passes.
+
+**"Sustained IPC of 0.88."** This number was not measured.
+* The design had no cycle or retired-instruction counters, and the only test program was 5 instructions long.
+* Measuring IPC properly needed a valid bit in every pipeline register to tell real instructions from bubbles. That work also showed how easily IPC is misreported: counting until the end of a padded simulation gave 0.95, because the NOPs after the program retire one per cycle.
+
+The IPC figures in this README are now measured per test program, up to each program's end marker.
+
+**Also corrected:** the earlier "10 µs testbenches running compiled C workloads" (the tests were short hand-encoded programs, and `$readmemh` loading was never used) and "operating at 50 MHz" (50 MHz is the testbench clock; timing has not been closed on an FPGA).
+
+---
+
+## Use of AI
+
+I used AI assistants during this project, and I want to be clear about how.
+
+* **Original design:** I used AI to help bridge pipelining theory and RTL while writing the pipelined datapath, and to generate the original testbenches. Those tests passed but shared the design's blind spots: they never exercised the cases where the bugs were.
+* **Review:** I later had a different AI model review the design. It flagged the stale register read, the incomplete branch flush, the stall/branch conflict, and the unsupported claims above.
+* **Fixes and new features:** I confirmed each bug by writing or running a directed test that failed, then implemented the fixes and the new features (`branch_unit`, valid bits and counters, JAL/JALR). The AI acted as a tutor: it explained concepts, gave scaffolds and hints, reviewed my code, and helped me debug from test results and waveforms. It also hand-encoded the machine code for the test programs, wrote the `+TEST` selection and `run_all.sh`, and drafted this README.
+* **Verification:** every change was checked by simulation and regression in Verilator, and every IPC figure was predicted by hand before being measured.
+
+The main lesson: when the same source helps write the design and its tests, the tests inherit its assumptions. Independent review and directed tests written against the specification are what found these problems.
+
+---
+
+## Next Steps
+
+* `lui`, `auipc` and byte/halfword loads and stores
+* Load programs from hex files with `$readmemh`, compiled from C with a RISC-V GCC toolchain
+* Run the official `riscv-tests` suite for compliance
+* Synthesize on an FPGA (Real Digital Boolean board, Spartan-7) and close timing
