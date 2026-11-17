@@ -186,8 +186,6 @@ I used AI assistants during this project, and I want to be clear about how.
 * **Fixes and new features:** I confirmed each bug by writing or running a directed test that failed, then implemented the fixes and the new features (`branch_unit`, valid bits and counters, JAL/JALR). The AI acted as a tutor: it explained concepts, gave scaffolds and hints, reviewed my code, and helped me debug from test results and waveforms. It also hand-encoded the machine code for the test programs, wrote the `+TEST` selection and `run_all.sh`, and drafted this README.
 * **Verification:** every change was checked by simulation and regression in Verilator, and every IPC figure was predicted by hand before being measured.
 
-The main lesson: when the same source helps write the design and its tests, the tests inherit its assumptions. Independent review and directed tests written against the specification are what found these problems.
-
 ---
 
 ## Next Steps
