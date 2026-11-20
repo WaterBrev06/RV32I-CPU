@@ -29,6 +29,7 @@ module riscv_core(
     logic        id_branch, id_jump, id_jalr, id_alu_src;
     logic        id_valid;
     logic [1:0]  id_alu_op;
+    logic [1:0]  id_alu_a_sel;
 
     // ----- EX Stage -----
     logic [31:0] ex_pc, ex_rs1_data, ex_rs2_data, ex_imm;
@@ -45,6 +46,7 @@ module riscv_core(
     logic        ex_branch_take;
     logic        ex_valid;
     logic        ex_jump, ex_jalr;
+    logic [1:0]  ex_alu_a_sel;
 
     // ----- MEM Stage -----
     logic        mem_reg_write, mem_mem_to_reg, mem_mem_read, mem_write_enable, mem_branch;
@@ -118,7 +120,8 @@ module riscv_core(
         .branch     (id_branch),
         .jump       (id_jump),
         .jalr       (id_jalr),
-        .alu_op     (id_alu_op)
+        .alu_op     (id_alu_op),
+        .alu_a_sel  (id_alu_a_sel)
     );
 
     // Register File
@@ -151,6 +154,7 @@ module riscv_core(
         .branch_in      (id_branch),
         .alu_src_in     (id_alu_src),
         .alu_op_in      (id_alu_op),
+        .alu_a_sel_in   (id_alu_a_sel),
         .pc_in          (id_pc),
         .rs1_data_in    (id_rs1_data),
         .rs2_data_in    (id_rs2_data),
@@ -172,6 +176,7 @@ module riscv_core(
         .branch_out     (ex_branch),
         .alu_src_out    (ex_alu_src),
         .alu_op_out     (ex_alu_op),
+        .alu_a_sel_out  (ex_alu_a_sel),
         .pc_out         (ex_pc),
         .rs1_data_out   (ex_rs1_data),
         .rs2_data_out   (ex_rs2_data),
@@ -219,6 +224,15 @@ module riscv_core(
         endcase
     end
 
+    logic [31:0] alu_a;
+    always_comb begin
+        case (ex_alu_a_sel)
+            2'b01: alu_a = ex_pc;   //AUIPC
+            2'b10: alu_a = 32'd0;   //LUI
+            default: alu_a = alu_in1; //fwd rs1
+        endcase 
+    end
+
     // MUX for ALU Input B (Register vs Immediate)
     assign alu_in2 = ex_alu_src ? ex_imm : forward_b_data;
 
@@ -227,7 +241,7 @@ module riscv_core(
 
     // Execution ALU
     alu main_alu (
-        .a        (alu_in1),
+        .a        (alu_a),
         .b        (alu_in2),
         .alu_ctrl (ex_alu_ctrl),
         .alu_out  (ex_alu_out),

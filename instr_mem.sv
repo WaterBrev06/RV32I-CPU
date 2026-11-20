@@ -56,6 +56,16 @@ module instr_mem(
                 mem[8] = 32'h00c504b3; // add  x9, x10, x12  = 36
                 mem[9] = 32'h00700313; // addi x6, x0, 7     end marker
             end
+            3: begin
+                mem[0] = 32'h06300413; // addi x8,  x0, 99    make LUI's "rs1" bits point at a non-zero register
+                mem[1] = 32'h06300f93; // addi x31, x0, 99
+                mem[2] = 32'h123450b7; // lui   x1, 0x12345     x1 = 0x12345000
+                mem[3] = 32'h00001117; // auipc x2, 0x1         x2 = pc(12) + 0x1000 = 0x0000100c
+                mem[4] = 32'h67808193; // addi  x3, x1, 0x678   x3 = 0x12345678
+                mem[5] = 32'hfffff237; // lui   x4, 0xFFFFF     x4 = 0xFFFFF000
+                mem[6] = 32'h00000297; // auipc x5, 0           x5 = pc = 0x00000018
+                mem[7] = 32'h00700313; // addi  x6, x0, 7       end marker
+            end 
             default: $fatal(1, "Unknown TEST=%0d (use 0, 1 or 2)", test);
         endcase
     end

@@ -14,6 +14,7 @@ module id_ex_reg(
     input  logic        branch_in,
     input  logic        alu_src_in,
     input  logic [1:0]  alu_op_in,
+    input  logic [1:0]  alu_a_sel_in,
     input  logic        jump_in,
     input  logic        jalr_in,
 
@@ -40,6 +41,7 @@ module id_ex_reg(
     output logic        branch_out,
     output logic        alu_src_out,
     output logic [1:0]  alu_op_out,
+    output logic [1:0]  alu_a_sel_out,
 
     // Data Outputs
     output logic [31:0] pc_out,
@@ -64,6 +66,7 @@ module id_ex_reg(
             branch_out     <= 1'b0;
             alu_src_out    <= 1'b0;
             alu_op_out     <= 2'b00;
+            alu_a_sel_out  <= 2'b00;
 
             pc_out         <= 32'd0;
             rs1_data_out   <= 32'd0;
@@ -86,6 +89,7 @@ module id_ex_reg(
             branch_out     <= branch_in;
             alu_src_out    <= alu_src_in;
             alu_op_out     <= alu_op_in;
+            alu_a_sel_out  <= alu_a_sel_in;
 
             pc_out         <= pc_in;
             rs1_data_out   <= rs1_data_in;

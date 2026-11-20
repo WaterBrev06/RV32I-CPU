@@ -28,6 +28,13 @@ void Vtb_riscv_core___024root__ctor(Vtb_riscv_core___024root* vlSelf, Vtb_riscv_
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_47);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_50);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_53);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_56);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_59);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_62);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_65);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_68);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_71);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_74);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__VdlySched, *vlSelf->vlSymsp->_vm_contextp__);
     // Reset structure values
     Vtb_riscv_core___024root___ctor_var_reset(vlSelf);
@@ -40,6 +47,13 @@ Vtb_riscv_core___024root::Vtb_riscv_core___024root(Vtb_riscv_core__Syms* symsp, 
 void Vtb_riscv_core___024root__dtor(Vtb_riscv_core___024root* vlSelf) {
     // Destroy members
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__VdlySched);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_74);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_71);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_68);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_65);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_62);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_59);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_56);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_53);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_50);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_47);

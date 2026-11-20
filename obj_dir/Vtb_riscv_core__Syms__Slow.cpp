@@ -8,7 +8,7 @@ void Vtb_riscv_core__Syms__ctor(Vtb_riscv_core__Syms* vlSymsp, const char* namep
     // Setup top module instance
     VL_INPLACE_CONSTRUCT(vlSymsp->vlInst.TOP, vlSymsp, namep);
     // Check resources
-    Verilated::stackCheck(93);
+    Verilated::stackCheck(128);
     // Setup names of the model and of its top module instances
     vlSymsp->__Vm_topNames[0] = vlSymsp->name();
     vlSymsp->__Vm_topNames[1] = vlSymsp->__Vm_isRoot ? Verilated::catName(vlSymsp->name(), "tb_riscv_core") : vlSymsp->name();

@@ -10,7 +10,8 @@ module control_unit(
     output logic branch,
     output logic jump,
     output logic jalr,
-    output logic[1:0] alu_op
+    output logic[1:0] alu_op,
+    output logic[1:0] alu_a_sel
     );
     
     localparam logic [6:0] OP_R_TYPE = 7'b0110011;
@@ -20,6 +21,8 @@ module control_unit(
     localparam logic [6:0] OP_BRANCH = 7'b1100011;
     localparam logic [6:0] OP_JAL = 7'b1101111;
     localparam logic [6:0] OP_JALR = 7'b1100111;
+    localparam logic [6:0] OP_LUI = 7'b0110111;
+    localparam logic [6:0] OP_AUIPC = 7'b0010111;
     
     always_comb begin
         reg_write  = 1'b0;
@@ -31,6 +34,7 @@ module control_unit(
         jump       = 1'b0;
         jalr       = 1'b0;
         alu_op     = 2'b00;
+        alu_a_sel  = 2'b00;
         
         case (opcode)
             OP_R_TYPE: begin
@@ -76,6 +80,20 @@ module control_unit(
                 jump = 1'b1;
                 jalr = 1'b1;
                 alu_op = 2'b00;
+            end
+
+            OP_LUI: begin
+                reg_write = 1'b1;
+                alu_src = 1'b1;
+                alu_op = 2'b00;
+                alu_a_sel = 2'b10;
+            end
+
+            OP_AUIPC: begin
+                reg_write = 1'b1;
+                alu_src = 1'b1;
+                alu_op = 2'b00;
+                alu_a_sel = 2'b01;
             end
             
             default: begin

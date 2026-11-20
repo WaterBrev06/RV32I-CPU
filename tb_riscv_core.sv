@@ -118,6 +118,15 @@ module tb_riscv_core;
                 check_reg(5'd12, 32'd28, "JALR link: x12 = PC+4");
                 check_reg(5'd9,  32'd36, "JALR target: x9 = x10 + x12");
             end
+            3: begin  // LUI / AUIPC (x8 and x31 preloaded so LUI can't pass by accident)
+                check_reg(5'd8,  32'd99,       "Setup: x8 = 99");
+                check_reg(5'd31, 32'd99,       "Setup: x31 = 99");
+                check_reg(5'd1,  32'h12345000, "LUI ignores its rs1 bits (x8 = 99)");
+                check_reg(5'd2,  32'h0000100c, "AUIPC: pc(12) + 0x1000");
+                check_reg(5'd3,  32'h12345678, "LUI + ADDI builds a 32-bit constant");
+                check_reg(5'd4,  32'hFFFFF000, "LUI with top bit set (rs1 bits = x31 = 99)");
+                check_reg(5'd5,  32'h00000018, "AUIPC with imm 0 = pc(24)");
+            end
         endcase
         check_reg(5'd6, 32'd7, "End marker reached");   // all three programs end with it
 
