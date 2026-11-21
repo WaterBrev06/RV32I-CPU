@@ -1,6 +1,6 @@
 # 32-Bit 5-Stage Pipelined RISC-V (RV32I) Processor Core
 
-A 32-bit, 5-stage pipelined RISC-V processor written in SystemVerilog. It implements every RV32I computational, control-flow and load/store instruction (all except `fence`, `ecall` and `ebreak`), with full hazard handling: forwarding, load-use stalls, branch/jump flushes and a register-file write-through bypass. It runs C programs compiled with GCC, and is verified with self-checking directed tests in Verilator, with pipeline valid bits and performance counters to measure IPC.
+A 32-bit, 5-stage pipelined RISC-V processor written in SystemVerilog. It implements every RV32I computational, control-flow and load/store instruction (all except `fence`, `ecall` and `ebreak`), with full hazard handling: forwarding, load-use stalls, branch/jump flushes and a register-file write-through bypass. It passes all 40 applicable tests of the official [`riscv-tests`](https://github.com/riscv-software-src/riscv-tests) rv32ui suite, runs C programs compiled with GCC, and is verified with self-checking directed tests in Verilator, with pipeline valid bits and performance counters to measure IPC.
 
 ---
 
@@ -11,7 +11,8 @@ A 32-bit, 5-stage pipelined RISC-V processor written in SystemVerilog. It implem
 * **Load-use penalty:** 1 stall cycle
 * **ALU:** 10 operations (`ADD`, `SUB`, `AND`, `OR`, `XOR`, `SLL`, `SRL`, `SRA`, `SLT`, `SLTU`), operand A selectable between rs1, PC and zero
 * **Register file:** 32 x 32-bit, dual asynchronous read / synchronous write, write-through bypass, `x0` hardwired to 0
-* **Memories:** 1 KB instruction memory, 1 KB data memory with byte enables (Harvard architecture)
+* **Memories:** 16 KB instruction memory, 16 KB data memory with byte enables (Harvard architecture)
+* **Compliance:** 40 / 40 applicable `riscv-tests` rv32ui tests pass
 * **Target clock:** 50 MHz (testbench clock; FPGA timing not yet closed)
 * **Measured IPC** (retired instructions / cycles, including the 4-cycle pipeline fill):
 
@@ -41,7 +42,7 @@ The C program is the representative number. The directed tests are short, so the
 | Jumps | `jal`, `jalr` | Supported |
 | System | `fence`, `ecall`, `ebreak` | Not yet |
 
-Misaligned halfword and word accesses are not supported; the RISC-V specification allows a core to trap on them instead.
+Misaligned halfword and word accesses are not supported; the RISC-V specification allows a core to trap on them instead. Assertions in `data_mem.sv` flag any misaligned access in simulation.
 
 ---
 
@@ -98,8 +99,8 @@ A `valid` bit travels through every pipeline register. It is set when an instruc
 | File | Type | Description |
 | --- | --- | --- |
 | `riscv_core.sv` | Top module | Integrates the 5 stages, pipeline registers and control units |
-| `instr_mem.sv` | Design | 1 KB instruction ROM; loads a hex file with `+HEX=file`, or a built-in test with `+TEST=N` |
-| `data_mem.sv` | Design | 1 KB data RAM: byte-enable writes, byte/halfword/word reads with sign or zero extension |
+| `instr_mem.sv` | Design | 16 KB instruction ROM; loads a hex file with `+HEX=file`, or a built-in test with `+TEST=N` |
+| `data_mem.sv` | Design | 16 KB data RAM: byte-enable writes, byte/halfword/word reads with sign or zero extension; loads a data image at `0x2000` with `+DHEX=file`; alignment assertions |
 | `regfile.sv` | Design | 32 x 32-bit register file with write-through bypass and hardwired `x0` |
 | `alu.sv` | Design | 32-bit, 10-operation ALU |
 | `alu_control.sv` | Design | Decodes `alu_op`, `funct3`, `funct7` into ALU control |
@@ -115,18 +116,22 @@ A `valid` bit travels through every pipeline register. It is set when an instruc
 | `tb_riscv_core.sv` | Testbench | Self-checking integration tests, C program mode, IPC counters |
 | `tb_alu.sv`, `tb_regfile.sv`, `tb_imm_gen.sv` | Testbench | Unit tests |
 | `run_all.sh` | Script | Builds once, runs every built-in test, compiles and runs the C program |
+| `run_riscv_tests.sh` | Script | Rebuilds the simulator, then builds and runs every applicable `riscv-tests` rv32ui test |
 | `sw/crt0.S` | Software | Startup: sets the stack pointer, calls `main`, stores the result and a done flag |
 | `sw/link.ld` | Software | Places code at address 0; refuses global data (separate instruction and data memories) |
 | `sw/prog.c` | Software | Bubble sort test program |
 | `sw/bin2hex.py` | Software | Converts the binary into one 32-bit word per line for `$readmemh` |
+| `sw/env/riscv_test.h` | Software | Test environment for `riscv-tests`: reports pass/fail through memory instead of `ecall` |
+| `sw/tests.ld` | Software | Linker script for `riscv-tests`: code at `0x0`, test data at `0x2000` |
 
 ---
 
 ## Running the Tests
 
-Requires [Verilator](https://verilator.org) 5.x and a RISC-V GCC (`brew install verilator riscv64-elf-gcc` on macOS).
+Requires [Verilator](https://verilator.org) 5.x and a RISC-V GCC (`brew install verilator riscv64-elf-gcc` on macOS). For the compliance suite, clone `riscv-tests` next to this repository: `git clone https://github.com/riscv-software-src/riscv-tests ../riscv-tests`.
 
 ```bash
+./run_riscv_tests.sh                                          # the official rv32ui suite
 ./run_all.sh                                                  # every built-in test plus the C program
 ./obj_dir/Vtb_riscv_core +TEST=4                              # one built-in test
 ./obj_dir/Vtb_riscv_core +HEX=sw/prog.hex +EXPECT=01234567    # a compiled program and its expected result
@@ -153,7 +158,7 @@ verilator --lint-only -Wall riscv_core.sv *_reg.sv alu*.sv control_unit.sv immge
   regfile.sv instr_mem.sv data_mem.sv forwarding_unit.sv hazard_unit.sv branch_unit.sv
 ```
 
-Address bits that the 1 KB memories do not use are routed into signals named `unused_*`, so lint still flags any other unused bit.
+Address bits that the 16 KB memories do not use are documented and waived.
 
 ---
 
@@ -169,6 +174,30 @@ Address bits that the 1 KB memories do not use are routed into signals named `un
 | `+HEX=sw/prog.hex` | Compiled C: function call and return, stack, nested loops, signed compares, shifts, loads and stores. 553 instructions |
 
 Each built-in program ends with `addi x6, x0, 7`, which marks the end for the IPC counters and is checked as the last test. The C program ends with the done flag instead, because compiled code is free to use `x6` (`t1`).
+
+### Compliance: `riscv-tests`
+
+The official [`riscv-tests`](https://github.com/riscv-software-src/riscv-tests) suite has one test program per instruction, each running dozens of cases: every forwarding distance, negative operands, shifts by 0 and 31, `x0` as a destination. **All 40 applicable rv32ui tests pass.**
+
+| Group | Tests | Result |
+| --- | --- | --- |
+| Arithmetic and logic | `add addi sub and andi or ori xor xori` | Pass |
+| Shifts | `sll slli srl srli sra srai` | Pass |
+| Compares | `slt slti sltu sltiu` | Pass |
+| Upper immediates | `lui auipc` | Pass |
+| Branches | `beq bne blt bge bltu bgeu` | Pass |
+| Jumps | `jal jalr` | Pass |
+| Loads | `lb lbu lh lhu lw` | Pass |
+| Stores | `sb sh sw` | Pass |
+| Mixed | `ld_st st_ld simple` | Pass |
+| Not run | `fence_i` (needs `fence.i` and self-modifying code), `ma_data` (misaligned access) | Excluded |
+
+How the suite runs on this core:
+* **Custom test environment.** The standard environment reports results through `ecall` and machine-mode CSRs, which this core does not have. `sw/env/riscv_test.h` replaces the reporting macros so that each test writes `1` (pass) or the number of the failing case to address `0x3F8`, then sets the done flag at `0x3FC`. The test code itself is unchanged.
+* **Code and data images.** Each test is linked with code at `0x0` and its data tables at `0x2000`, then split into two hex files: one for the instruction memory, one for the data memory. The tests reach their data with `la` (AUIPC + ADDI), so the PC-relative addresses resolve correctly.
+* **Checking the checker.** With arithmetic right shift deliberately broken (`>>` instead of `>>>`), `sra` and `srai` failed at case 3, the first case that shifts a negative number, and `lui` failed too, because its test checks the upper bits through an `sra`. Restoring the ALU returned all 40 to passing.
+
+This is the `riscv-tests` suite, not the formal RISC-V architecture certification tests (`riscv-arch-test`), and `fence`, `ecall` and `ebreak` are not yet implemented.
 
 ### Bugs Found and Fixed
 
@@ -189,7 +218,7 @@ Each built-in program ends with `addi x6, x0, 7`, which marks the end for the IP
 
 Earlier versions of this README and my resume made claims the repository did not support. This is where each one stands now.
 
-**"Full RV32I ISA compliance."** This was not true. At the time, `jal`/`jalr` were decoded but not connected, every branch behaved like `beq`, and `lui`, `auipc`, sub-word loads and stores and the system instructions were missing. All of these except `fence`, `ecall` and `ebreak` are now implemented and tested. Compliance means passing the official `riscv-tests` suite, which has not been run yet, so the core is described as implementing RV32I except the system instructions.
+**"Full RV32I ISA compliance."** This was not true. At the time, `jal`/`jalr` were decoded but not connected, every branch behaved like `beq`, `lui`, `auipc`, sub-word loads and stores and the system instructions were missing, and the official test suite had never been run. All of these except `fence`, `ecall` and `ebreak` are now implemented, and the core passes all 40 applicable rv32ui tests of the official `riscv-tests` suite (see Compliance). The accurate description is therefore "passes the rv32ui `riscv-tests`", not full RV32I compliance, until the system instructions are added.
 
 **"Sustained IPC of 0.88."** This number was not measured: the design had no counters, and the only test program was 5 instructions long. Measuring IPC properly needed a valid bit in every pipeline register. That work also showed how easily IPC is misreported: counting until the end of a padded simulation gave 0.95, because the NOPs after the program retire one per cycle. The measured figure on compiled code is 0.76.
 
@@ -205,8 +234,8 @@ I used AI assistants during this project, and I want to be clear about how.
 
 * **Original design:** I used AI to help bridge pipelining theory and RTL while writing the pipelined datapath, and to generate the original testbenches. Those tests passed but shared the design's blind spots: they never exercised the cases where the bugs were.
 * **Review:** I later had a different AI model review the design. It flagged the stale register read, the incomplete branch flush, the stall/branch conflict, and the unsupported claims above.
-* **Fixes and new features:** I confirmed each bug with a directed test that failed, then implemented the fixes and the new features: `branch_unit`, valid bits and counters, JAL/JALR, LUI/AUIPC and byte/halfword memory access. The AI acted as a tutor: it explained concepts, gave scaffolds and hints, reviewed my code, and helped me debug from test results and waveforms.
-* **What the AI wrote:** the machine code for the hand-encoded test programs, the `+TEST`/`+HEX` selection, `run_all.sh`, the software flow in `sw/` (`crt0.S`, `link.ld`, `prog.c`, `bin2hex.py`), and drafts of this README.
+* **Fixes and new features:** I confirmed each bug with a directed test that failed, then implemented the fixes and the new features: `branch_unit`, valid bits and counters, JAL/JALR, LUI/AUIPC, byte/halfword memory access and the larger memories with data-image loading. The AI acted as a tutor: it explained concepts, gave scaffolds and hints, reviewed my code, and helped me debug from test results and waveforms.
+* **What the AI wrote:** the machine code for the hand-encoded test programs, the `+TEST`/`+HEX` selection, `run_all.sh`, the software flow in `sw/` (`crt0.S`, `link.ld`, `prog.c`, `bin2hex.py`), the `riscv-tests` environment and flow (`sw/env/riscv_test.h`, `sw/tests.ld`, `run_riscv_tests.sh`), and drafts of this README.
 * **Verification:** every change was checked by simulation and regression in Verilator, and every IPC figure was predicted by hand before being measured.
 
 The main lesson: when the same source helps write the design and its tests, the tests inherit its assumptions. Independent review, and directed tests that are able to fail, are what found these problems.
@@ -215,8 +244,7 @@ The main lesson: when the same source helps write the design and its tests, the 
 
 ## Next Steps
 
-* Run the official `riscv-tests` suite, with a test environment that reports pass/fail through a memory write instead of `ecall`
-* `fence`, `ecall` and `ebreak`
 * Only check source registers an instruction actually uses (removes unnecessary load-use stalls after `lui`, `auipc` and `jal`)
-* Load initialized data into the data memory as well, so C programs can use global variables
+* `fence`, `ecall` and `ebreak`, with a minimal trap mechanism
+* Use the data-image loading built for `riscv-tests` so C programs can have global variables
 * Synthesize on an FPGA (Real Digital Boolean board, Spartan-7) and close timing

@@ -147,6 +147,13 @@ module tb_riscv_core;
                     check_mem(32'd4, 32'h0234FF00, "SB then SH: only their bytes written");
                     check_reg(5'd11, 32'h0234FF00, "LW reads back the merged word");
                 end
+                5: begin
+                    check_reg(5'd1, 32'h12345000, "LUI after load into x8 (rs1 bits = x8, no stall needed)");
+                    check_reg(5'd5, 32'h12345008, "ADDI after load into x8 (rs2 bits = 8, no stall needed)");
+                end
+                6: begin
+                    check_mem(32'd4, 32'd42, "Load then store of the loaded value");
+                end
             endcase
             check_reg(5'd6, 32'd7, "End marker reached");  
         end

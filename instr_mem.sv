@@ -85,6 +85,20 @@ module instr_mem(
                 mem[13] = 32'h00402583; // lw   x11, 4(x0)       x11 = 0x0234FF00
                 mem[14] = 32'h00700313; // addi x6, x0, 7        end marker
             end
+            5: begin
+                mem[0] = 32'h00002403; // lw   x8, 0(x0)
+                mem[1] = 32'h123450b7; // lui  x1, 0x12345    rs1 bits = x8: false stall before the fix
+                mem[2] = 32'h00002403; // lw   x8, 0(x0)
+                mem[3] = 32'h00808293; // addi x5, x1, 8      rs2 bits = 8 = x8: false stall before the fix
+                mem[4] = 32'h00700313; // addi x6, x0, 7      end marker
+            end
+            6: begin
+                mem[0] = 32'h02a00093; // addi x1, x0, 42
+                mem[1] = 32'h00102023; // sw   x1, 0(x0)      mem[0] = 42
+                mem[2] = 32'h00002283; // lw   x5, 0(x0)      x5 = 42
+                mem[3] = 32'h00502223; // sw   x5, 4(x0)      store-data load-use: must stall
+                mem[4] = 32'h00700313; // addi x6, x0, 7      end marker
+            end
             default: $fatal(1, "Unknown TEST=%0d (use 0, 1 or 2)", test);
         endcase
         end

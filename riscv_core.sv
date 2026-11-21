@@ -26,7 +26,7 @@ module riscv_core(
     logic [4:0]  id_rs1_addr, id_rs2_addr, id_rd_addr;
     logic [31:0] id_rs1_data, id_rs2_data, id_imm;
     logic        id_reg_write, id_mem_to_reg, id_mem_read, id_mem_write;
-    logic        id_branch, id_jump, id_jalr, id_alu_src;
+    logic        id_branch, id_jump, id_jalr, id_alu_src, id_uses_rs1, id_uses_rs2;
     logic        id_valid;
     logic [1:0]  id_alu_op;
     logic [1:0]  id_alu_a_sel;
@@ -121,6 +121,8 @@ module riscv_core(
         .branch     (id_branch),
         .jump       (id_jump),
         .jalr       (id_jalr),
+        .uses_rs1   (id_uses_rs1),
+        .uses_rs2   (id_uses_rs2),
         .alu_op     (id_alu_op),
         .alu_a_sel  (id_alu_a_sel)
     );
@@ -361,7 +363,9 @@ module riscv_core(
         .pc_stall       (pc_stall),
         .if_id_stall    (if_id_stall),
         .if_id_flush    (if_id_flush),
-        .id_ex_flush    (id_ex_flush)
+        .id_ex_flush    (id_ex_flush),
+        .uses_rs1       (id_uses_rs1),
+        .uses_rs2       (id_uses_rs2)
     );
     
 endmodule

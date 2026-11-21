@@ -10,6 +10,8 @@ module control_unit(
     output logic branch,
     output logic jump,
     output logic jalr,
+    output logic uses_rs1,
+    output logic uses_rs2,
     output logic[1:0] alu_op,
     output logic[1:0] alu_a_sel
     );
@@ -33,23 +35,31 @@ module control_unit(
         branch     = 1'b0;
         jump       = 1'b0;
         jalr       = 1'b0;
+        uses_rs1   = 1'b0;
+        uses_rs2   = 1'b0;
         alu_op     = 2'b00;
         alu_a_sel  = 2'b00;
         
         case (opcode)
             OP_R_TYPE: begin
+                uses_rs1   = 1'b1;
+                uses_rs2   = 1'b1;
                 reg_write = 1'b1;
                 alu_src = 1'b0;
                 alu_op = 2'b10;
             end
             
             OP_I_TYPE: begin
+                uses_rs1   = 1'b1;
+                uses_rs2   = 1'b0;
                 reg_write = 1'b1;
                 alu_src = 1'b1;
                 alu_op = 2'b10;
             end
             
             OP_LOAD: begin
+                uses_rs1   = 1'b1;
+                uses_rs2   = 1'b0;
                 reg_write = 1'b1;
                 alu_src = 1'b1;
                 mem_to_reg = 1'b1;
@@ -58,12 +68,16 @@ module control_unit(
             end
             
             OP_STORE: begin
+                uses_rs1   = 1'b1;
+                uses_rs2   = 1'b1;
                 alu_src = 1'b1;
                 mem_write = 1'b1;
                 alu_op = 2'b00;
             end
             
             OP_BRANCH: begin
+                uses_rs1   = 1'b1;
+                uses_rs2   = 1'b1;
                 branch = 1'b1;
                 alu_op = 2'b01;
             end
@@ -75,6 +89,8 @@ module control_unit(
             end
             
             OP_JALR: begin
+                uses_rs1   = 1'b1;
+                uses_rs2   = 1'b0;
                 reg_write = 1'b1;
                 alu_src = 1'b1;
                 jump = 1'b1;
