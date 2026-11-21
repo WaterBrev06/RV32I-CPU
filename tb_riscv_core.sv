@@ -49,13 +49,13 @@ module tb_riscv_core;
         input string       test_desc
     );
         test_count++;
-        if (uut.dmem.mem[mem_addr[9:2]] !== expected_val) begin
+        if (uut.dmem.mem[mem_addr[13:2]] !== expected_val) begin
             $display("FAIL [%s]: Mem[0x%h] = 0x%h, Expected = 0x%h",
-                     test_desc, mem_addr, uut.dmem.mem[mem_addr[9:2]], expected_val);
+                     test_desc, mem_addr, uut.dmem.mem[mem_addr[13:2]], expected_val);
             error_count++;
         end else begin
             $display("PASS [%s]: Mem[0x%h] = 0x%h", 
-                     test_desc, mem_addr, uut.dmem.mem[mem_addr[9:2]]);
+                     test_desc, mem_addr, uut.dmem.mem[mem_addr[13:2]]);
         end
     endtask
 

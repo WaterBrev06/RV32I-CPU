@@ -9,15 +9,20 @@ module data_mem(
     input  logic [31:0] write_data,
     output logic [31:0] read_data
 );
-    logic [31:0] mem [0:255];
-    initial for (int i = 0; i < 256; i++) mem[i] = 32'd0;
+    logic [31:0] mem [0:4095];
+    initial begin
+        string dfile;
+        for (int i = 0; i < 4096; i++) mem[i] = 32'd0;
+        if ($value$plusargs("DHEX=%s", dfile))
+            $readmemh(dfile, mem, 'h800);    // test data at byte address 0x2000 = word 0x800
+    end
 
     logic unused_addr_hi;
-    assign unused_addr_hi = ^addr[31:10];
+    assign unused_addr_hi = ^addr[31:14];
 
-    logic [7:0] word_idx;
+    logic [11:0] word_idx;
     logic [1:0] off;                  // byte offset within the word
-    assign word_idx = addr[9:2];
+    assign word_idx = addr[13:2];
     assign off      = addr[1:0];
 
     // ---------------- Stores: byte enables + replicated data ----------------

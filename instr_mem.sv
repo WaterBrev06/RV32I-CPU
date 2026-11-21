@@ -7,19 +7,18 @@ module instr_mem(
     output logic [31:0] instr  // 32-bit instruction output
     );
     
-    // 256-word instruction memory (1 KB total)
-    logic [31:0] mem [0:255];
+    // 4096-word instruction memory (16 KB total)
+    logic [31:0] mem [0:4095];
 
     initial begin
         string hexfile;
         int test = 0;
 
         // Initialize memory with NOPs (addi x0, x0, 0)
-        for (int i = 0; i < 256; i++) mem[i] = 32'h0000_0013;
+        for (int i = 0; i < 4096; i++) mem[i] = 32'h0000_0013;
         if($value$plusargs("HEX=%s", hexfile))
             $readmemh(hexfile, mem);
         else begin
-        // Pick the program from the command line: +TEST=0, +TEST=1 or +TEST=2
         void'($value$plusargs("TEST=%d", test));
 
         case (test)
@@ -92,6 +91,6 @@ module instr_mem(
     end
 
     // Word-aligned combinational read (addr >> 2)
-    assign instr = mem[addr[9:2]];
+    assign instr = mem[addr[13:2]];
     
 endmodule

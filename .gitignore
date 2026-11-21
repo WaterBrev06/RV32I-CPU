@@ -1,5 +1,16 @@
+# Verilator build output
 obj_dir/
+
+# Waveforms
 *.vcd
+
+# Compiled C program (rebuilt by run_all.sh)
 sw/*.elf
 sw/*.bin
 sw/*.hex
+
+# riscv-tests build output (rebuilt by run_riscv_tests.sh)
+build_tests/
+
+# macOS folder metadata
+.DS_Store
