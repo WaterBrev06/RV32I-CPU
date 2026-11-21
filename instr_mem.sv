@@ -65,7 +65,24 @@ module instr_mem(
                 mem[5] = 32'hfffff237; // lui   x4, 0xFFFFF     x4 = 0xFFFFF000
                 mem[6] = 32'h00000297; // auipc x5, 0           x5 = pc = 0x00000018
                 mem[7] = 32'h00700313; // addi  x6, x0, 7       end marker
-            end 
+            end
+            4: begin
+                mem[0]  = 32'h876540b7; // lui  x1, 0x87654      x1 = 0x87654000
+                mem[1]  = 32'h3a108093; // addi x1, x1, 0x3A1    x1 = 0x876543A1
+                mem[2]  = 32'h00102023; // sw   x1, 0(x0)        mem[0] = 0x876543A1 (bytes A1 43 65 87)
+                mem[3]  = 32'h00000103; // lb   x2, 0(x0)        x2 = 0xFFFFFFA1 (sign-extended)
+                mem[4]  = 32'h00004183; // lbu  x3, 0(x0)        x3 = 0x000000A1 (zero-extended)
+                mem[5]  = 32'h00100203; // lb   x4, 1(x0)        x4 = 0x00000043 (byte 1)
+                mem[6]  = 32'h00201283; // lh   x5, 2(x0)        x5 = 0xFFFF8765 (upper half, sign-extended)
+                mem[7]  = 32'h00205383; // lhu  x7, 2(x0)        x7 = 0x00008765
+                mem[8]  = 32'h00002403; // lw   x8, 0(x0)        x8 = 0x876543A1
+                mem[9]  = 32'hfff00493; // addi x9, x0, -1       x9 = 0xFFFFFFFF
+                mem[10] = 32'h009002a3; // sb   x9, 5(x0)        mem[1] = 0x0000FF00
+                mem[11] = 32'h23400513; // addi x10, x0, 0x234   x10 = 0x00000234
+                mem[12] = 32'h00a01323; // sh   x10, 6(x0)       mem[1] = 0x0234FF00
+                mem[13] = 32'h00402583; // lw   x11, 4(x0)       x11 = 0x0234FF00
+                mem[14] = 32'h00700313; // addi x6, x0, 7        end marker
+            end
             default: $fatal(1, "Unknown TEST=%0d (use 0, 1 or 2)", test);
         endcase
     end

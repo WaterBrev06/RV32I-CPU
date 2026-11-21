@@ -127,6 +127,16 @@ module tb_riscv_core;
                 check_reg(5'd4,  32'hFFFFF000, "LUI with top bit set (rs1 bits = x31 = 99)");
                 check_reg(5'd5,  32'h00000018, "AUIPC with imm 0 = pc(24)");
             end
+            4: begin
+                check_reg(5'd2,  32'hFFFFFFA1, "LB byte 0, sign-extended");
+                check_reg(5'd3,  32'h000000A1, "LBU byte 0, zero-extended");
+                check_reg(5'd4,  32'h00000043, "LB byte 1, positive");
+                check_reg(5'd5,  32'hFFFF8765, "LH upper half, sign-extended");
+                check_reg(5'd7,  32'h00008765, "LHU upper half");
+                check_reg(5'd8,  32'h876543A1, "LW still works");
+                check_mem(32'd4, 32'h0234FF00, "SB then SH: only their bytes written");
+                check_reg(5'd11, 32'h0234FF00, "LW reads back the merged word");
+            end
         endcase
         check_reg(5'd6, 32'd7, "End marker reached");   // all three programs end with it
 

@@ -50,6 +50,7 @@ module riscv_core(
 
     // ----- MEM Stage -----
     logic        mem_reg_write, mem_mem_to_reg, mem_mem_read, mem_write_enable, mem_branch;
+    logic [2:0]  mem_funct3;
     logic [31:0] mem_branch_target, mem_alu_out, mem_rs2_data, mem_read_data;
     logic        mem_zero;
     logic [4:0]  mem_rd_addr;
@@ -275,6 +276,7 @@ module riscv_core(
         .rs2_data_in       (forward_b_data),
         .rd_addr_in        (ex_rd_addr),
         .valid_in          (ex_valid),
+        .funct3_in         (ex_funct3),
 
         .reg_write_out     (mem_reg_write),
         .mem_to_reg_out    (mem_mem_to_reg),
@@ -286,7 +288,8 @@ module riscv_core(
         .alu_out_out       (mem_alu_out),
         .rs2_data_out      (mem_rs2_data),
         .rd_addr_out       (mem_rd_addr),
-        .valid_out         (mem_valid)
+        .valid_out         (mem_valid),
+        .funct3_out        (mem_funct3)
     );
 
 
@@ -303,7 +306,8 @@ module riscv_core(
         .mem_write  (mem_write_enable),
         .addr       (mem_alu_out),
         .write_data (mem_rs2_data),
-        .read_data  (mem_read_data)
+        .read_data  (mem_read_data),
+        .funct3     (mem_funct3)
     );
 
     // MEM/WB Pipeline Register
