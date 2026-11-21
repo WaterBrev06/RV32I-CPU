@@ -56,4 +56,7 @@ module data_mem(
             default: read_data = word;                            // LW
         endcase
     end
+
+    assert property (@(posedge clk) (mem_read || mem_write) && funct3[1:0] == 2'b01 |-> off[0] == 1'b0);
+    assert property (@(posedge clk) (mem_read || mem_write) && funct3[1:0] == 2'b10 |-> off == 2'b00);
 endmodule

@@ -11,11 +11,14 @@ module instr_mem(
     logic [31:0] mem [0:255];
 
     initial begin
+        string hexfile;
         int test = 0;
 
         // Initialize memory with NOPs (addi x0, x0, 0)
         for (int i = 0; i < 256; i++) mem[i] = 32'h0000_0013;
-
+        if($value$plusargs("HEX=%s", hexfile))
+            $readmemh(hexfile, mem);
+        else begin
         // Pick the program from the command line: +TEST=0, +TEST=1 or +TEST=2
         void'($value$plusargs("TEST=%d", test));
 
@@ -85,6 +88,7 @@ module instr_mem(
             end
             default: $fatal(1, "Unknown TEST=%0d (use 0, 1 or 2)", test);
         endcase
+        end
     end
 
     // Word-aligned combinational read (addr >> 2)

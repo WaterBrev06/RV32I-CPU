@@ -10,11 +10,13 @@ void Vtb_riscv_core___024root__ctor(Vtb_riscv_core___024root* vlSelf, Vtb_riscv_
     vlSelf->vlSymsp = symsp;
     vlSelf->vlNamep = strdup(namep);
     // Construct members
-    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.tb_riscv_core__DOT__hexfile);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__hexfile);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_2);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8);
-    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_11);
-    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_11);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_14);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_20);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_23);
@@ -40,10 +42,12 @@ void Vtb_riscv_core___024root__ctor(Vtb_riscv_core___024root* vlSelf, Vtb_riscv_
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_83);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_86);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_89);
-    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_92);
-    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_95);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_92);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_95);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_98);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_101);
     VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__VdlySched, *vlSelf->vlSymsp->_vm_contextp__);
+    VL_INPLACE_CONSTRUCT(vlSelf->__Vnontrivs.__VtrigSched_h82c65d4b__0);
     // Reset structure values
     Vtb_riscv_core___024root___ctor_var_reset(vlSelf);
 }
@@ -54,10 +58,12 @@ Vtb_riscv_core___024root::Vtb_riscv_core___024root(Vtb_riscv_core__Syms* symsp, 
 
 void Vtb_riscv_core___024root__dtor(Vtb_riscv_core___024root* vlSelf) {
     // Destroy members
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__VtrigSched_h82c65d4b__0);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__VdlySched);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_101);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_98);
-    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_95);
-    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_92);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_95);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_92);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_89);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_86);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_83);
@@ -83,11 +89,13 @@ void Vtb_riscv_core___024root__dtor(Vtb_riscv_core___024root* vlSelf) {
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_23);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_20);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_17);
-    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_14);
-    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_11);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_14);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_11);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_8);
     VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_5);
-    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_reg__test_desc_2);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.__Vtask_tb_riscv_core__DOT__check_mem__test_desc_2);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.tb_riscv_core__DOT__uut__DOT__imem__DOT__unnamedblk1__DOT__hexfile);
+    VL_INPLACE_DESTRUCT(vlSelf->__Vnontrivs.tb_riscv_core__DOT__hexfile);
     VL_DO_DANGLING(std::free(const_cast<char*>(vlSelf->vlNamep)), vlSelf->vlNamep);
 }
 
