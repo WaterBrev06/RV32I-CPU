@@ -1,6 +1,6 @@
 # 32-Bit 5-Stage Pipelined RISC-V (RV32I) Processor Core
 
-A 32-bit, 5-stage pipelined RISC-V processor written in SystemVerilog. It implements every RV32I computational, control-flow and load/store instruction (all except `fence`, `ecall` and `ebreak`), with full hazard handling: forwarding, load-use stalls, branch/jump flushes and a register-file write-through bypass. It passes all 40 applicable tests of the official [`riscv-tests`](https://github.com/riscv-software-src/riscv-tests) rv32ui suite, runs C programs compiled with GCC, and is verified with self-checking directed tests in Verilator, with pipeline valid bits and performance counters to measure IPC.
+A 32-bit, 5-stage pipelined RISC-V processor written in SystemVerilog. It implements RV32I plus the Zicsr extension, with machine-mode traps (`ecall`, `ebreak`, `mret`) and full hazard handling: forwarding, load-use stalls, branch/jump flushes and a register-file write-through bypass. It passes all 40 applicable tests of the official [`riscv-tests`](https://github.com/riscv-software-src/riscv-tests) rv32ui suite in the suite's standard, unmodified test environment, runs C programs compiled with GCC, and is verified with self-checking directed tests in Verilator, with pipeline valid bits and performance counters to measure IPC.
 
 ---
 
@@ -12,7 +12,8 @@ A 32-bit, 5-stage pipelined RISC-V processor written in SystemVerilog. It implem
 * **ALU:** 10 operations (`ADD`, `SUB`, `AND`, `OR`, `XOR`, `SLL`, `SRL`, `SRA`, `SLT`, `SLTU`), operand A selectable between rs1, PC and zero
 * **Register file:** 32 x 32-bit, dual asynchronous read / synchronous write, write-through bypass, `x0` hardwired to 0
 * **Memories:** 16 KB instruction memory, 16 KB data memory with byte enables (Harvard architecture)
-* **Compliance:** 40 / 40 applicable `riscv-tests` rv32ui tests pass
+* **Compliance:** 40 / 40 applicable `riscv-tests` rv32ui tests pass, in both the official environment (real `ecall` traps) and a simplified one
+* **Privileged:** machine mode only; CSRs `mstatus`, `misa`, `mtvec` (direct), `mscratch`, `mepc`, `mcause`, `mtval`, `mhartid`
 * **Target clock:** 50 MHz (testbench clock; FPGA timing not yet closed)
 * **Measured IPC** (retired instructions / cycles, including the 4-cycle pipeline fill):
 
@@ -24,6 +25,9 @@ A 32-bit, 5-stage pipelined RISC-V processor written in SystemVerilog. It implem
 | 2: JAL / JALR | 7 | 15 | 0.47 |
 | 3: LUI / AUIPC | 8 | 12 | 0.67 |
 | 4: Byte and halfword loads/stores | 15 | 19 | 0.79 |
+| 5: No false load-use stalls | 5 | 9 | 0.56 |
+| 6: Required store-data load-use stall | 5 | 10 | 0.50 |
+| 7: ECALL / EBREAK trap handler | 24 | 36 | 0.67 |
 
 The C program is the representative number. The directed tests are short, so the pipeline fill and taken-branch bubbles dominate them. In the bubble sort, the lost cycles are mostly taken loop branches (2 cycles each, about one per inner iteration) plus load-use stalls (1 cycle each).
 
@@ -40,9 +44,12 @@ The C program is the representative number. The directed tests are short, so the
 | Stores | `sb sh sw` | Supported (aligned) |
 | Branches | `beq bne blt bge bltu bgeu` | Supported |
 | Jumps | `jal`, `jalr` | Supported |
-| System | `fence`, `ecall`, `ebreak` | Not yet |
+| Ordering | `fence` | Supported (no-op: single in-order core, no caches) |
+| System | `ecall`, `ebreak`, `mret` | Supported (machine-mode trap) |
+| CSR (Zicsr) | `csrrw csrrs csrrc csrrwi csrrsi csrrci` | Supported |
+| Not implemented | `fence.i`, `wfi`, interrupts, user/supervisor modes | |
 
-Misaligned halfword and word accesses are not supported; the RISC-V specification allows a core to trap on them instead. Assertions in `data_mem.sv` flag any misaligned access in simulation.
+Misaligned halfword and word accesses are not supported and do not trap; the RISC-V specification allows a core to trap on them instead. Assertions in `data_mem.sv` flag any misaligned access in simulation.
 
 ---
 
@@ -62,6 +69,7 @@ Misaligned halfword and word accesses are not supported; the RISC-V specificatio
      instr_mem        regfile             alu            data_mem          regfile
          |            immgen          branch_unit       (byte enables,     (write)
          |         control_unit       alu_control        sign/zero ext.)
+         |                             csr_unit
          |                                 |
          +------ branch / jump target ------+
                                            ^
@@ -72,7 +80,7 @@ Misaligned halfword and word accesses are not supported; the RISC-V specificatio
 
 1. **Instruction Fetch (IF):** Selects PC + 4 or the branch/jump target from EX, and fetches the instruction from `instr_mem.sv`.
 2. **Instruction Decode (ID):** Decodes the opcode in `control_unit.sv`, reads `regfile.sv` and builds the immediate in `immgen.sv`. Control signals are decoded once here and travel down the pipeline with the instruction.
-3. **Execute (EX):** The ALU's operand A is the forwarded rs1, the PC (`auipc`) or zero (`lui`); operand B is the forwarded rs2 or the immediate. `branch_unit.sv` evaluates all six branch conditions on the forwarded register values. Branch and JAL targets are `PC + imm`; the JALR target is `(rs1 + imm) & ~1`. A taken branch or any jump redirects the PC and flushes IF/ID and ID/EX. Jumps compute their write-back value (PC + 4) here, so every forwarding path sees the final result.
+3. **Execute (EX):** The ALU's operand A is the forwarded rs1, the PC (`auipc`) or zero (`lui`); operand B is the forwarded rs2 or the immediate. `branch_unit.sv` evaluates all six branch conditions on the forwarded register values. Branch and JAL targets are `PC + imm`; the JALR target is `(rs1 + imm) & ~1`. A taken branch or any jump redirects the PC and flushes IF/ID and ID/EX. Jumps compute their write-back value (PC + 4) here, so every forwarding path sees the final result. `csr_unit.sv` also lives in EX: it reads and writes CSRs, and on `ecall`/`ebreak` it saves the PC in `mepc` and the cause in `mcause` and redirects to `mtvec`; `mret` redirects to `mepc`. Traps reuse the branch/jump redirect and its two-instruction flush. CSR writes are safe in EX because nothing can cancel an instruction once it reaches EX: redirects only come from EX and only flush younger instructions.
 4. **Memory (MEM):** `data_mem.sv` uses `funct3` and the low address bits to write only the enabled bytes on stores, and to select and sign- or zero-extend the byte or halfword on loads.
 5. **Write-Back (WB):** Selects the loaded data or the EX result and writes it to the register file.
 
@@ -84,9 +92,9 @@ Misaligned halfword and word accesses are not supported; the RISC-V specificatio
 | RAW, producer 2 instructions ahead | Forward from MEM/WB (`forward = 2'b01`) |
 | RAW, producer 3 instructions ahead | Register-file write-through bypass (WB writes and ID reads the same register in one cycle) |
 | Load-use | Stall PC and IF/ID for one cycle, insert a bubble into ID/EX |
-| Taken branch / jump | Resolve in EX, flush IF/ID and ID/EX (2 bubbles) |
+| Taken branch / jump / trap / `mret` | Resolve in EX, flush IF/ID and ID/EX (2 bubbles) |
 
-The hazard and forwarding units compare the rs1/rs2 fields of every instruction, including those (such as `lui`) whose fields are really immediate bits. This can cause a harmless forward, or an unnecessary one-cycle stall; neither affects correctness.
+The control unit flags which source registers each instruction actually reads (`uses_rs1`, `uses_rs2`), and the hazard unit only stalls for those. This removes unnecessary load-use stalls after instructions such as `lui` and `addi`, whose rs1/rs2 fields hold immediate bits. The forwarding unit still compares all fields; a forward into an unused operand is harmless and costs no cycles.
 
 ### Valid Bits and Performance Counters
 
@@ -105,7 +113,8 @@ A `valid` bit travels through every pipeline register. It is set when an instruc
 | `alu.sv` | Design | 32-bit, 10-operation ALU |
 | `alu_control.sv` | Design | Decodes `alu_op`, `funct3`, `funct7` into ALU control |
 | `branch_unit.sv` | Design | Evaluates BEQ/BNE/BLT/BGE/BLTU/BGEU on forwarded operands |
-| `control_unit.sv` | Design | Main decoder, including `jump`, `jalr` and the ALU operand-A select |
+| `control_unit.sv` | Design | Main decoder, including `jump`, `jalr`, `system`, the ALU operand-A select and `uses_rs1`/`uses_rs2` |
+| `csr_unit.sv` | Design | Machine-mode CSRs, CSR read/modify/write, `ecall`/`ebreak` traps and `mret` |
 | `immgen.sv` | Design | Immediate generator for I, S, B, U and J formats |
 | `if_id_reg.sv` | Pipeline reg | IF/ID with stall, flush and valid bit |
 | `id_ex_reg.sv` | Pipeline reg | ID/EX with flush (bubble insertion) and valid bit |
@@ -116,22 +125,24 @@ A `valid` bit travels through every pipeline register. It is set when an instruc
 | `tb_riscv_core.sv` | Testbench | Self-checking integration tests, C program mode, IPC counters |
 | `tb_alu.sv`, `tb_regfile.sv`, `tb_imm_gen.sv` | Testbench | Unit tests |
 | `run_all.sh` | Script | Builds once, runs every built-in test, compiles and runs the C program |
-| `run_riscv_tests.sh` | Script | Rebuilds the simulator, then builds and runs every applicable `riscv-tests` rv32ui test |
+| `run_riscv_tests.sh` | Script | Rebuilds the simulator, then builds and runs every applicable rv32ui test; `ENV=official` uses the suite's standard environment |
 | `sw/crt0.S` | Software | Startup: sets the stack pointer, calls `main`, stores the result and a done flag |
 | `sw/link.ld` | Software | Places code at address 0; refuses global data (separate instruction and data memories) |
 | `sw/prog.c` | Software | Bubble sort test program |
 | `sw/bin2hex.py` | Software | Converts the binary into one 32-bit word per line for `$readmemh` |
 | `sw/env/riscv_test.h` | Software | Test environment for `riscv-tests`: reports pass/fail through memory instead of `ecall` |
 | `sw/tests.ld` | Software | Linker script for `riscv-tests`: code at `0x0`, test data at `0x2000` |
+| `sw/tests_official.ld` | Software | The same, plus the official environment's `tohost` result word at `0x3000` |
 
 ---
 
 ## Running the Tests
 
-Requires [Verilator](https://verilator.org) 5.x and a RISC-V GCC (`brew install verilator riscv64-elf-gcc` on macOS). For the compliance suite, clone `riscv-tests` next to this repository: `git clone https://github.com/riscv-software-src/riscv-tests ../riscv-tests`.
+Requires [Verilator](https://verilator.org) 5.x and a RISC-V GCC (`brew install verilator riscv64-elf-gcc` on macOS). For the compliance suite, clone `riscv-tests` next to this repository with its environment submodule: `git clone --recursive https://github.com/riscv-software-src/riscv-tests ../riscv-tests`.
 
 ```bash
-./run_riscv_tests.sh                                          # the official rv32ui suite
+ENV=official ./run_riscv_tests.sh                             # rv32ui suite, standard environment (ecall traps, tohost)
+./run_riscv_tests.sh                                          # rv32ui suite, simplified environment
 ./run_all.sh                                                  # every built-in test plus the C program
 ./obj_dir/Vtb_riscv_core +TEST=4                              # one built-in test
 ./obj_dir/Vtb_riscv_core +HEX=sw/prog.hex +EXPECT=01234567    # a compiled program and its expected result
@@ -171,6 +182,9 @@ Address bits that the 16 KB memories do not use are documented and waived.
 | `+TEST=2` | JAL and JALR redirect and flush, link register = PC + 4, forwarding into the JALR base register |
 | `+TEST=3` | LUI and AUIPC, building a 32-bit constant with LUI + ADDI. The registers named by LUI's rs1 bits are preloaded with non-zero values, so a missing operand-A mux cannot pass by accident |
 | `+TEST=4` | LB/LBU/LH/LHU/LW with values whose top bit is set (sign extension) and clear, SB and SH into the same word so only their bytes may change |
+| `+TEST=5` | Loads followed by `lui` and `addi` whose immediate bits match the load's destination: no stall (9 cycles, not 11) |
+| `+TEST=6` | A load followed immediately by a store of the loaded value: the stall must happen (10 cycles) |
+| `+TEST=7` | A trap handler: `mtvec` setup, `ecall` and `ebreak`, `mcause` and `mepc`, `mret` back past the trap, a CSR written in the handler and read after it, forwarding into and out of CSR instructions |
 | `+HEX=sw/prog.hex` | Compiled C: function call and return, stack, nested loops, signed compares, shifts, loads and stores. 553 instructions |
 
 Each built-in program ends with `addi x6, x0, 7`, which marks the end for the IPC counters and is checked as the last test. The C program ends with the done flag instead, because compiled code is free to use `x6` (`t1`).
@@ -192,12 +206,13 @@ The official [`riscv-tests`](https://github.com/riscv-software-src/riscv-tests) 
 | Mixed | `ld_st st_ld simple` | Pass |
 | Not run | `fence_i` (needs `fence.i` and self-modifying code), `ma_data` (misaligned access) | Excluded |
 
-How the suite runs on this core:
-* **Custom test environment.** The standard environment reports results through `ecall` and machine-mode CSRs, which this core does not have. `sw/env/riscv_test.h` replaces the reporting macros so that each test writes `1` (pass) or the number of the failing case to address `0x3F8`, then sets the done flag at `0x3FC`. The test code itself is unchanged.
+The suite runs in two environments, and all 40 tests pass in both:
+* **Official environment** (`ENV=official`). The suite's own `env/p` environment, unmodified. Each test writes several CSRs and enters through `mret`, and ends with an `ecall` that traps to the environment's handler, which reads `mcause` and writes the result to `tohost` (placed at `0x3000`): `1` for pass, or `(case << 1) | 1` for a failure. Every test therefore also exercises the trap path. CSRs the environment touches that this core does not implement (such as `satp`, `pmpaddr0`, `medeleg`, `mideleg`, `mie`) read as zero and ignore writes; none of them affect a single-hart, machine-mode core without virtual memory or interrupts.
+* **Simplified environment** (default). `sw/env/riscv_test.h` replaces the reporting macros so each test writes `1` or the failing case number to `0x3F8` without using CSRs or traps. It was used before the trap mechanism existed and still isolates the base instructions from the trap logic.
 * **Code and data images.** Each test is linked with code at `0x0` and its data tables at `0x2000`, then split into two hex files: one for the instruction memory, one for the data memory. The tests reach their data with `la` (AUIPC + ADDI), so the PC-relative addresses resolve correctly.
-* **Checking the checker.** With arithmetic right shift deliberately broken (`>>` instead of `>>>`), `sra` and `srai` failed at case 3, the first case that shifts a negative number, and `lui` failed too, because its test checks the upper bits through an `sra`. Restoring the ALU returned all 40 to passing.
+* **Checking the checker.** With arithmetic right shift deliberately broken (`>>` instead of `>>>`), `sra` and `srai` failed at case 3, the first case that shifts a negative number, and `lui` failed too, because its test checks the upper bits through an `sra`. With the store-data load-use stall removed, the individual store tests still passed but `ld_st` failed, along with directed test 6. Restoring each change returned all 40 to passing.
 
-This is the `riscv-tests` suite, not the formal RISC-V architecture certification tests (`riscv-arch-test`), and `fence`, `ecall` and `ebreak` are not yet implemented.
+This is the `riscv-tests` suite, not the formal RISC-V architecture certification tests (`riscv-arch-test`).
 
 ### Bugs Found and Fixed
 
@@ -211,6 +226,7 @@ This is the `riscv-tests` suite, not the formal RISC-V architecture certificatio
 | JAL treated as JALR | Jump test: the JAL target never executed | The JAL/JALR select was taken from an inverted opcode bit; now decoded as a `jalr` signal in the control unit |
 | AUIPC wrote the immediate instead of PC + immediate, while LUI appeared to pass | Test 3 failed for AUIPC; analysis showed LUI only passed because the registers named by its rs1 bits held zero | Added the missing operand-A mux; strengthened the test so LUI cannot pass by coincidence |
 | Every load and store behaved as a signed byte access | Test 4: seven failures traced to a single cause, `funct3 = 000` at the data memory | The data memory's new `funct3` port was not connected in the core |
+| Removing false stalls also removed required ones | The bubble sort returned a wrong result and retired 454 instead of 553 instructions (a different path), and five load tests failed at their first zero-NOP bypass case | The `uses_rs1`/`uses_rs2` flags were paired with the wrong source registers; added test 6 for the store-data case |
 
 ---
 
@@ -218,7 +234,7 @@ This is the `riscv-tests` suite, not the formal RISC-V architecture certificatio
 
 Earlier versions of this README and my resume made claims the repository did not support. This is where each one stands now.
 
-**"Full RV32I ISA compliance."** This was not true. At the time, `jal`/`jalr` were decoded but not connected, every branch behaved like `beq`, `lui`, `auipc`, sub-word loads and stores and the system instructions were missing, and the official test suite had never been run. All of these except `fence`, `ecall` and `ebreak` are now implemented, and the core passes all 40 applicable rv32ui tests of the official `riscv-tests` suite (see Compliance). The accurate description is therefore "passes the rv32ui `riscv-tests`", not full RV32I compliance, until the system instructions are added.
+**"Full RV32I ISA compliance."** This was not true. At the time, `jal`/`jalr` were decoded but not connected, every branch behaved like `beq`, `lui`, `auipc`, sub-word loads and stores and the system instructions were missing, and the official test suite had never been run. All of these are now implemented, and the core passes all 40 applicable rv32ui tests of the official `riscv-tests` suite in its standard environment (see Compliance). The accurate description is "passes the rv32ui `riscv-tests`"; formal compliance would mean the `riscv-arch-test` certification suite, which has not been run.
 
 **"Sustained IPC of 0.88."** This number was not measured: the design had no counters, and the only test program was 5 instructions long. Measuring IPC properly needed a valid bit in every pipeline register. That work also showed how easily IPC is misreported: counting until the end of a padded simulation gave 0.95, because the NOPs after the program retire one per cycle. The measured figure on compiled code is 0.76.
 
@@ -234,8 +250,8 @@ I used AI assistants during this project, and I want to be clear about how.
 
 * **Original design:** I used AI to help bridge pipelining theory and RTL while writing the pipelined datapath, and to generate the original testbenches. Those tests passed but shared the design's blind spots: they never exercised the cases where the bugs were.
 * **Review:** I later had a different AI model review the design. It flagged the stale register read, the incomplete branch flush, the stall/branch conflict, and the unsupported claims above.
-* **Fixes and new features:** I confirmed each bug with a directed test that failed, then implemented the fixes and the new features: `branch_unit`, valid bits and counters, JAL/JALR, LUI/AUIPC, byte/halfword memory access and the larger memories with data-image loading. The AI acted as a tutor: it explained concepts, gave scaffolds and hints, reviewed my code, and helped me debug from test results and waveforms.
-* **What the AI wrote:** the machine code for the hand-encoded test programs, the `+TEST`/`+HEX` selection, `run_all.sh`, the software flow in `sw/` (`crt0.S`, `link.ld`, `prog.c`, `bin2hex.py`), the `riscv-tests` environment and flow (`sw/env/riscv_test.h`, `sw/tests.ld`, `run_riscv_tests.sh`), and drafts of this README.
+* **Fixes and new features:** I confirmed each bug with a directed test that failed, then implemented the fixes and the new features: `branch_unit`, valid bits and counters, JAL/JALR, LUI/AUIPC, byte/halfword memory access, the larger memories with data-image loading, the `uses_rs1`/`uses_rs2` hazard fix, and the CSR unit with traps (scaffolded by the AI, completed and wired in by me). The AI acted as a tutor: it explained concepts, gave scaffolds and hints, reviewed my code, and helped me debug from test results and waveforms.
+* **What the AI wrote:** the machine code for the hand-encoded test programs, the `+TEST`/`+HEX` selection, `run_all.sh`, the software flow in `sw/` (`crt0.S`, `link.ld`, `prog.c`, `bin2hex.py`), the `riscv-tests` environments and flow (`sw/env/riscv_test.h`, `sw/tests.ld`, `sw/tests_official.ld`, `run_riscv_tests.sh`, the testbench's `tohost` mode), and drafts of this README.
 * **Verification:** every change was checked by simulation and regression in Verilator, and every IPC figure was predicted by hand before being measured.
 
 The main lesson: when the same source helps write the design and its tests, the tests inherit its assumptions. Independent review, and directed tests that are able to fail, are what found these problems.
@@ -244,7 +260,7 @@ The main lesson: when the same source helps write the design and its tests, the 
 
 ## Next Steps
 
-* Only check source registers an instruction actually uses (removes unnecessary load-use stalls after `lui`, `auipc` and `jal`)
-* `fence`, `ecall` and `ebreak`, with a minimal trap mechanism
+* Misaligned-access and illegal-instruction exceptions
+* Run the formal `riscv-arch-test` suite
 * Use the data-image loading built for `riscv-tests` so C programs can have global variables
 * Synthesize on an FPGA (Real Digital Boolean board, Spartan-7) and close timing
