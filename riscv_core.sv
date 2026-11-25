@@ -3,6 +3,19 @@
 module riscv_core(
     input  logic        clk,
     input  logic        rst,
+
+    // Instruction memory (outside the core)
+    output logic [31:0] imem_addr,
+    input  logic [31:0] imem_rdata,
+
+    // Data memory (outside the core)
+    output logic [31:0] dmem_addr,
+    output logic [31:0] dmem_wdata,
+    output logic [3:0]  dmem_be,
+    output logic        dmem_we,
+    output logic        dmem_re,
+    input  logic [31:0] dmem_rdata,
+
     output logic [31:0] wb_result // Exposes Write-Back result for testbench verification
     );
     
@@ -61,7 +74,9 @@ module riscv_core(
     logic [31:0] wb_read_data, wb_alu_out;
     logic [4:0]  wb_rd_addr;
     logic [31:0] wb_data;
-    logic        wb_valid;
+    /* verilator lint_off UNUSEDSIGNAL */
+    logic        wb_valid;     // read by the testbench IPC counters (retired-instruction count)
+    /* verilator lint_on UNUSEDSIGNAL */
 
     // ----- CSR Unit -----
     logic [31:0] csr_rdata, csr_redirect_pc;
@@ -85,11 +100,9 @@ module riscv_core(
     assign pc_plus_4 = pc + 32'd4;
     assign next_pc   = branch_taken ? ex_target : pc_plus_4;
 
-    // Instruction Memory
-    instr_mem imem (
-        .addr  (pc),
-        .instr (if_instr)
-    );
+    // Instruction Memory: outside the core
+    assign imem_addr = pc;
+    assign if_instr  = imem_rdata;
 
     // IF/ID Pipeline Register
     if_id_reg if_id (
@@ -323,15 +336,21 @@ module riscv_core(
 
     assign branch_taken = ex_jump || (ex_branch && ex_branch_take) || csr_redirect;
 
-    // Data Memory
-    data_mem dmem (
-        .clk        (clk),
+    // Load/Store Unit: byte enables for stores, select + extend for loads.
+    // The data memory itself is outside the core.
+    lsu u_lsu (
         .mem_read   (mem_mem_read),
         .mem_write  (mem_write_enable),
+        .funct3     (mem_funct3),
         .addr       (mem_alu_out),
-        .write_data (mem_rs2_data),
-        .read_data  (mem_read_data),
-        .funct3     (mem_funct3)
+        .store_data (mem_rs2_data),
+        .dmem_rdata (dmem_rdata),
+        .dmem_addr  (dmem_addr),
+        .dmem_wdata (dmem_wdata),
+        .dmem_be    (dmem_be),
+        .dmem_we    (dmem_we),
+        .dmem_re    (dmem_re),
+        .load_data  (mem_read_data)
     );
 
     // MEM/WB Pipeline Register

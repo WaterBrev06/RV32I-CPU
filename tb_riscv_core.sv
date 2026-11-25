@@ -16,8 +16,8 @@ module tb_riscv_core;
     bit tohost_mode = 0;
 
 
-    // Instantiate Unit Under Test (UUT)
-    riscv_core uut (
+    // Unit Under Test: the core plus its simulation memories
+    soc_sim uut (
         .clk       (clk),
         .rst       (rst),
         .wb_result (wb_result)
@@ -33,13 +33,13 @@ module tb_riscv_core;
         input string       test_desc
     );
         test_count++;
-        if (uut.u_regfile.rf[reg_addr] !== expected_val) begin
+        if (uut.u_core.u_regfile.rf[reg_addr] !== expected_val) begin
             $display("FAIL [%s]: x%0d = 0x%h (%0d), Expected = 0x%h (%0d)",
-                     test_desc, reg_addr, uut.u_regfile.rf[reg_addr], uut.u_regfile.rf[reg_addr], expected_val, expected_val);
+                     test_desc, reg_addr, uut.u_core.u_regfile.rf[reg_addr], uut.u_core.u_regfile.rf[reg_addr], expected_val, expected_val);
             error_count++;
         end else begin
             $display("PASS [%s]: x%0d = 0x%h (%0d)", 
-                     test_desc, reg_addr, uut.u_regfile.rf[reg_addr], uut.u_regfile.rf[reg_addr]);
+                     test_desc, reg_addr, uut.u_core.u_regfile.rf[reg_addr], uut.u_core.u_regfile.rf[reg_addr]);
         end
     endtask
 
@@ -50,23 +50,23 @@ module tb_riscv_core;
         input string       test_desc
     );
         test_count++;
-        if (uut.dmem.mem[mem_addr[13:2]] !== expected_val) begin
+        if (uut.u_dmem.mem[mem_addr[13:2]] !== expected_val) begin
             $display("FAIL [%s]: Mem[0x%h] = 0x%h, Expected = 0x%h",
-                     test_desc, mem_addr, uut.dmem.mem[mem_addr[13:2]], expected_val);
+                     test_desc, mem_addr, uut.u_dmem.mem[mem_addr[13:2]], expected_val);
             error_count++;
         end else begin
             $display("PASS [%s]: Mem[0x%h] = 0x%h", 
-                     test_desc, mem_addr, uut.dmem.mem[mem_addr[13:2]]);
+                     test_desc, mem_addr, uut.u_dmem.mem[mem_addr[13:2]]);
         end
     endtask
 
     always @(posedge clk) begin
         if (!rst && !done) begin
             cycles++;
-            if (uut.wb_valid) retired++;
+            if (uut.u_core.wb_valid) retired++;
             // stop counting when the end marker (addi x6) completes
-            if (!hex_mode && uut.wb_valid && uut.wb_reg_write && uut.wb_rd_addr == 5'd6) done = 1;
-            if (hex_mode && (tohost_mode ? (uut.dmem.mem['hC00] != 0) : (uut.dmem.mem[255] == 32'd1))) done = 1;
+            if (!hex_mode && uut.u_core.wb_valid && uut.u_core.wb_reg_write && uut.u_core.wb_rd_addr == 5'd6) done = 1;
+            if (hex_mode && (tohost_mode ? (uut.u_dmem.mem['hC00] != 0) : (uut.u_dmem.mem[255] == 32'd1))) done = 1;
         end
     end
 
@@ -96,22 +96,22 @@ module tb_riscv_core;
             hex_mode = 1;
             tohost_mode = $test$plusargs("TOHOST");
             if (tohost_mode) begin
-                for (int c = 0; c < 20000 && uut.dmem.mem['hC00] === 32'd0; c++) @(posedge clk);
+                for (int c = 0; c < 20000 && uut.u_dmem.mem['hC00] === 32'd0; c++) @(posedge clk);
                 test_count++;
-                if (uut.dmem.mem['hC00] === 32'd1)
+                if (uut.u_dmem.mem['hC00] === 32'd1)
                     $display("PASS [riscv-tests via tohost]");
                 else begin
                     error_count++;
-                    if (uut.dmem.mem['hC00] === 32'd0) $display("FAIL: timeout, tohost never written");
-                    else $display("FAIL: tohost = 0x%h, failing case %0d", uut.dmem.mem['hC00], uut.dmem.mem['hC00] >> 1);
+                    if (uut.u_dmem.mem['hC00] === 32'd0) $display("FAIL: timeout, tohost never written");
+                    else $display("FAIL: tohost = 0x%h, failing case %0d", uut.u_dmem.mem['hC00], uut.u_dmem.mem['hC00] >> 1);
                 end
             end else begin
-            void'($value$plusargs("EXPECT=%h", expected));
-            for (int c = 0; c < 20000 && uut.dmem.mem[255] !== 32'd1; c++) @(posedge clk);
-            if (uut.dmem.mem[255] !== 32'd1) begin $display("FAIL: timeout, done flag never set"); error_count++; end
-            check_mem(32'h3F8, expected, "C program result");
-                end 
-            end else begin
+                void'($value$plusargs("EXPECT=%h", expected));
+                for (int c = 0; c < 20000 && uut.u_dmem.mem[255] !== 32'd1; c++) @(posedge clk);
+                if (uut.u_dmem.mem[255] !== 32'd1) begin $display("FAIL: timeout, done flag never set"); error_count++; end
+                check_mem(32'h3F8, expected, "C program result");
+            end
+        end else begin
             #2000;
 
             $display("\n--------------------------------------------------");
