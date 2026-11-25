@@ -13,10 +13,11 @@ module immgen(
     localparam logic [6:0] OP_LUI     = 7'b0110111; // Load Upper Immediate
     localparam logic [6:0] OP_AUIPC   = 7'b0010111; // Add Upper Immediate to PC
     localparam logic [6:0] OP_JAL     = 7'b1101111; // Jump and Link
+    localparam logic [6:0] OP_SYSTEM  = 7'b1110011; // CSR
     
     always_comb begin 
         case (instr[6:0])
-            OP_I_TYPE, OP_LOAD, OP_JALR: begin
+            OP_I_TYPE, OP_LOAD, OP_JALR, OP_SYSTEM: begin
                 imm_ext = {{20{instr[31]}}, instr[31:20]};
             end
             

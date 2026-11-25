@@ -4,7 +4,7 @@ verilator --binary --timing --assert --trace -Wno-fatal --top-module tb_riscv_co
   immgen.sv regfile.sv instr_mem.sv data_mem.sv forwarding_unit.sv hazard_unit.sv \
   branch_unit.sv || exit 1
 
-for t in 0 1 2 3 4 5 6; do
+for t in 0 1 2 3 4 5 6 7; do
   echo "===== TEST $t ====="
   ./obj_dir/Vtb_riscv_core +TEST=$t | grep -E "FAIL|SUCCESS|FAILURE|IPC"
 done

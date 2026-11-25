@@ -13,6 +13,7 @@ module tb_riscv_core;
     int retired     = 0;
     bit done        = 0;
     bit hex_mode    = 0;
+    bit tohost_mode = 0;
 
 
     // Instantiate Unit Under Test (UUT)
@@ -65,7 +66,7 @@ module tb_riscv_core;
             if (uut.wb_valid) retired++;
             // stop counting when the end marker (addi x6) completes
             if (!hex_mode && uut.wb_valid && uut.wb_reg_write && uut.wb_rd_addr == 5'd6) done = 1;
-            if (hex_mode && uut.dmem.mem[255] == 32'd1) done = 1;
+            if (hex_mode && (tohost_mode ? (uut.dmem.mem['hC00] != 0) : (uut.dmem.mem[255] == 32'd1))) done = 1;
         end
     end
 
@@ -93,12 +94,25 @@ module tb_riscv_core;
         rst = 0;
         if ($value$plusargs("HEX=%s", hexfile)) begin
             hex_mode = 1;
+            tohost_mode = $test$plusargs("TOHOST");
+            if (tohost_mode) begin
+                for (int c = 0; c < 20000 && uut.dmem.mem['hC00] === 32'd0; c++) @(posedge clk);
+                test_count++;
+                if (uut.dmem.mem['hC00] === 32'd1)
+                    $display("PASS [riscv-tests via tohost]");
+                else begin
+                    error_count++;
+                    if (uut.dmem.mem['hC00] === 32'd0) $display("FAIL: timeout, tohost never written");
+                    else $display("FAIL: tohost = 0x%h, failing case %0d", uut.dmem.mem['hC00], uut.dmem.mem['hC00] >> 1);
+                end
+            end else begin
             void'($value$plusargs("EXPECT=%h", expected));
             for (int c = 0; c < 20000 && uut.dmem.mem[255] !== 32'd1; c++) @(posedge clk);
             if (uut.dmem.mem[255] !== 32'd1) begin $display("FAIL: timeout, done flag never set"); error_count++; end
             check_mem(32'h3F8, expected, "C program result");
-        end else begin
-            #800;
+                end 
+            end else begin
+            #2000;
 
             $display("\n--------------------------------------------------");
             $display(" VERIFYING PIPELINE EXECUTION & HAZARD RESOLUTION ");
@@ -153,6 +167,14 @@ module tb_riscv_core;
                 end
                 6: begin
                     check_mem(32'd4, 32'd42, "Load then store of the loaded value");
+                end
+                7: begin
+                    check_reg(5'd2,  32'd5,  "Before the first trap");
+                    check_reg(5'd3,  32'd9,  "Resumed after ECALL");
+                    check_reg(5'd4,  32'h55, "CSR written in the handler, read in main");
+                    check_reg(5'd13, 32'd14, "Handler ran twice: mcause 11 (ECALL) + 3 (EBREAK)");
+                    check_reg(5'd10, 32'd3,  "Last mcause = EBREAK");
+                    check_reg(5'd11, 32'd28, "Last mepc + 4 = return address after EBREAK");
                 end
             endcase
             check_reg(5'd6, 32'd7, "End marker reached");  

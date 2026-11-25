@@ -10,6 +10,7 @@ module control_unit(
     output logic branch,
     output logic jump,
     output logic jalr,
+    output logic system,
     output logic uses_rs1,
     output logic uses_rs2,
     output logic[1:0] alu_op,
@@ -25,6 +26,7 @@ module control_unit(
     localparam logic [6:0] OP_JALR = 7'b1100111;
     localparam logic [6:0] OP_LUI = 7'b0110111;
     localparam logic [6:0] OP_AUIPC = 7'b0010111;
+    localparam logic [6:0] OP_SYSTEM = 7'b1110011;
     
     always_comb begin
         reg_write  = 1'b0;
@@ -35,6 +37,7 @@ module control_unit(
         branch     = 1'b0;
         jump       = 1'b0;
         jalr       = 1'b0;
+        system     = 1'b0;
         uses_rs1   = 1'b0;
         uses_rs2   = 1'b0;
         alu_op     = 2'b00;
@@ -110,6 +113,13 @@ module control_unit(
                 alu_src = 1'b1;
                 alu_op = 2'b00;
                 alu_a_sel = 2'b01;
+            end
+
+            OP_SYSTEM: begin
+                uses_rs1   = 1'b1;
+                uses_rs2   = 1'b0;
+                reg_write  = 1'b1;
+                system     = 1'b1;
             end
             
             default: begin

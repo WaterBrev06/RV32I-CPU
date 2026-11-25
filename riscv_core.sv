@@ -26,7 +26,7 @@ module riscv_core(
     logic [4:0]  id_rs1_addr, id_rs2_addr, id_rd_addr;
     logic [31:0] id_rs1_data, id_rs2_data, id_imm;
     logic        id_reg_write, id_mem_to_reg, id_mem_read, id_mem_write;
-    logic        id_branch, id_jump, id_jalr, id_alu_src, id_uses_rs1, id_uses_rs2;
+    logic        id_branch, id_jump, id_jalr, id_alu_src, id_uses_rs1, id_uses_rs2, id_system;
     logic        id_valid;
     logic [1:0]  id_alu_op;
     logic [1:0]  id_alu_a_sel;
@@ -36,7 +36,7 @@ module riscv_core(
     logic [2:0]  ex_funct3;
     logic        ex_funct7_5, ex_op_bit5;
     logic [4:0]  ex_rs1_addr, ex_rs2_addr, ex_rd_addr;
-    logic        ex_reg_write, ex_mem_to_reg, ex_mem_read, ex_mem_write, ex_branch, ex_alu_src;
+    logic        ex_reg_write, ex_mem_to_reg, ex_mem_read, ex_mem_write, ex_branch, ex_alu_src, ex_system;
     logic [1:0]  ex_alu_op;
     logic [3:0]  ex_alu_ctrl;
     logic [1:0]  forward_a, forward_b;
@@ -62,6 +62,10 @@ module riscv_core(
     logic [4:0]  wb_rd_addr;
     logic [31:0] wb_data;
     logic        wb_valid;
+
+    // ----- CSR Unit -----
+    logic [31:0] csr_rdata, csr_redirect_pc;
+    logic        csr_redirect;
 
     assign wb_result = wb_data;
 
@@ -121,6 +125,7 @@ module riscv_core(
         .branch     (id_branch),
         .jump       (id_jump),
         .jalr       (id_jalr),
+        .system     (id_system),
         .uses_rs1   (id_uses_rs1),
         .uses_rs2   (id_uses_rs2),
         .alu_op     (id_alu_op),
@@ -171,6 +176,7 @@ module riscv_core(
         .valid_in       (id_valid),
         .jump_in        (id_jump),
         .jalr_in        (id_jalr),
+        .system_in      (id_system),
 
         .reg_write_out  (ex_reg_write),
         .mem_to_reg_out (ex_mem_to_reg),
@@ -192,7 +198,8 @@ module riscv_core(
         .rd_addr_out    (ex_rd_addr),
         .valid_out      (ex_valid),
         .jump_out       (ex_jump),
-        .jalr_out       (ex_jalr)
+        .jalr_out       (ex_jalr),
+        .system_out     (ex_system)
     );
 
 
@@ -207,6 +214,21 @@ module riscv_core(
         .funct7_5 (ex_funct7_5),
         .op_bit5  (ex_op_bit5),
         .alu_ctrl (ex_alu_ctrl)
+    );
+    
+    //CSR Unit
+    csr_unit alu_csr_unit (
+        .clk        (clk),
+        .rst        (rst),
+        .system     (ex_system),
+        .funct3     (ex_funct3),
+        .csr_addr   (ex_imm[11:0]),
+        .rs1_field  (ex_rs1_addr),
+        .rs1_val    (alu_in1),
+        .pc         (ex_pc),
+        .rdata      (csr_rdata),
+        .redirect   (csr_redirect),
+        .redirect_pc(csr_redirect_pc)
     );
 
     // Forwarding MUX for ALU Input A
@@ -251,7 +273,7 @@ module riscv_core(
         .zero     (ex_zero)
     );
 
-    assign ex_target = ex_jalr ? (ex_alu_out & ~32'd1) : ex_branch_target;
+    assign ex_target = csr_redirect ? csr_redirect_pc : (ex_jalr ? (ex_alu_out & ~32'd1) : ex_branch_target);
         
     //Branch Unit
     branch_unit u_bu (
@@ -261,7 +283,7 @@ module riscv_core(
         .take     (ex_branch_take)
     );
 
-    assign ex_result = ex_jump ? (ex_pc + 32'd4) : ex_alu_out;
+    assign ex_result = ex_jump ? (ex_pc + 32'd4) : (ex_system ? csr_rdata : ex_alu_out);
 
     // EX/MEM Pipeline Register
     ex_mem_reg ex_mem (
@@ -299,7 +321,7 @@ module riscv_core(
     // 4. MEMORY (MEM) STAGE
     // ========================================================================
 
-    assign branch_taken = ex_jump || (ex_branch && ex_branch_take);
+    assign branch_taken = ex_jump || (ex_branch && ex_branch_take) || csr_redirect;
 
     // Data Memory
     data_mem dmem (

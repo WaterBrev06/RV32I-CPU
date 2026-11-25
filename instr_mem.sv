@@ -12,7 +12,8 @@ module instr_mem(
 
     initial begin
         string hexfile;
-        int test = 0;
+        int test;
+        test = 0;
 
         // Initialize memory with NOPs (addi x0, x0, 0)
         for (int i = 0; i < 4096; i++) mem[i] = 32'h0000_0013;
@@ -99,6 +100,26 @@ module instr_mem(
                 mem[3] = 32'h00502223; // sw   x5, 4(x0)      store-data load-use: must stall
                 mem[4] = 32'h00700313; // addi x6, x0, 7      end marker
             end
+            7: begin
+                mem[0]  = 32'h04000093; // addi  x1, x0, 0x40       handler address
+                mem[1]  = 32'h30509073; // csrrw x0, mtvec, x1      mtvec = 0x40
+                mem[2]  = 32'h00500113; // addi  x2, x0, 5
+                mem[3]  = 32'h00000073; // ecall                    trap: mepc = 12, mcause = 11
+                mem[4]  = 32'h00900193; // addi  x3, x0, 9          runs after the handler returns
+                mem[5]  = 32'h34002273; // csrrs x4, mscratch, x0   x4 = 0x55 (written by the handler)
+                mem[6]  = 32'h00100073; // ebreak                   trap: mepc = 24, mcause = 3
+                mem[7]  = 32'h00700313; // addi  x6, x0, 7          end marker
+                mem[8]  = 32'h0000006f;  // j .   (jal x0, 0): stop here instead of falling into the handler
+                // handler at 0x40
+                mem[16] = 32'h34202573; // csrrs x10, mcause, x0    x10 = cause
+                mem[17] = 32'h341025f3; // csrrs x11, mepc, x0      x11 = address of the trapping instruction
+                mem[18] = 32'h00458593; // addi  x11, x11, 4        return past it (forwarded from a CSR read)
+                mem[19] = 32'h34159073; // csrrw x0, mepc, x11      (forwarded into a CSR write)
+                mem[20] = 32'h05500613; // addi  x12, x0, 0x55
+                mem[21] = 32'h34061073; // csrrw x0, mscratch, x12  mscratch = 0x55
+                mem[22] = 32'h00a686b3; // add   x13, x13, x10      sum of causes: 11 + 3 = 14
+                mem[23] = 32'h30200073; // mret                     pc = mepc
+            end 
             default: $fatal(1, "Unknown TEST=%0d (use 0, 1 or 2)", test);
         endcase
         end
