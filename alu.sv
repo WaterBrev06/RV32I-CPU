@@ -4,8 +4,7 @@ module alu(
     input logic[31:0] a,
     input logic[31:0] b,
     input logic[3:0] alu_ctrl,
-    output logic[31:0] alu_out,
-    output logic        zero
+    output logic[31:0] alu_out
     );
     
     localparam logic [3:0] ALU_ADD  = 4'b0000;
@@ -34,5 +33,4 @@ module alu(
             default: alu_out = 32'd0;
         endcase
     end
-    assign zero = (alu_out == 32'd0);
 endmodule

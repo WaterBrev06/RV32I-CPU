@@ -282,8 +282,7 @@ module riscv_core(
         .a        (alu_a),
         .b        (alu_in2),
         .alu_ctrl (ex_alu_ctrl),
-        .alu_out  (ex_alu_out),
-        .zero     (ex_zero)
+        .alu_out  (ex_alu_out)
     );
 
     assign ex_target = csr_redirect ? csr_redirect_pc : (ex_jalr ? (ex_alu_out & ~32'd1) : ex_branch_target);

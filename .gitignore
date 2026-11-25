@@ -14,3 +14,7 @@ build_tests/
 
 # macOS folder metadata
 .DS_Store
+
+
+asic/runs/
+
