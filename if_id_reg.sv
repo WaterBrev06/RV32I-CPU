@@ -14,7 +14,11 @@ module if_id_reg(
     );
     
     always_ff @(posedge clk or posedge rst) begin
-        if (rst || flush) begin
+        if (rst) begin
+            pc_out    <= 32'd0;
+            instr_out <= 32'h0000_0013; // NOP (addi x0, x0, 0)
+            valid_out <= 0;
+        end else if (flush) begin
             pc_out    <= 32'd0;
             instr_out <= 32'h0000_0013; // NOP (addi x0, x0, 0)
             valid_out <= 0;

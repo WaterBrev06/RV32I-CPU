@@ -59,7 +59,7 @@ module id_ex_reg(
     );
     
     always_ff @(posedge clk or posedge rst) begin
-        if (rst || flush) begin
+        if (rst) begin
             // Clear all control signals to disable register/memory writes
             reg_write_out  <= 1'b0;
             mem_to_reg_out <= 1'b0;
@@ -84,6 +84,32 @@ module id_ex_reg(
             jump_out       <= 0;
             jalr_out       <= 0;
             system_out     <= 0;
+        end else if (flush) begin
+            // Clear all control signals to disable register/memory writes
+            reg_write_out  <= 1'b0;
+            mem_to_reg_out <= 1'b0;
+            mem_read_out   <= 1'b0;
+            mem_write_out  <= 1'b0;
+            branch_out     <= 1'b0;
+            alu_src_out    <= 1'b0;
+            alu_op_out     <= 2'b00;
+            alu_a_sel_out  <= 2'b00;
+
+            pc_out         <= 32'd0;
+            rs1_data_out   <= 32'd0;
+            rs2_data_out   <= 32'd0;
+            imm_out        <= 32'd0;
+            funct3_out     <= 3'd0;
+            funct7_5_out   <= 1'b0;
+            op_bit5_out    <= 1'b0;
+            rs1_addr_out   <= 5'd0;
+            rs2_addr_out   <= 5'd0;
+            rd_addr_out    <= 5'd0;
+            valid_out      <= 0;
+            jump_out       <= 0;
+            jalr_out       <= 0;
+            system_out     <= 0;
+            
         end else begin
             reg_write_out  <= reg_write_in;
             mem_to_reg_out <= mem_to_reg_in;

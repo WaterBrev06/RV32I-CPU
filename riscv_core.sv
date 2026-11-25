@@ -55,17 +55,15 @@ module riscv_core(
     logic [1:0]  forward_a, forward_b;
     logic [31:0] alu_in1, alu_in2, forward_b_data;
     logic [31:0] ex_alu_out, ex_branch_target, ex_target, ex_result;
-    logic        ex_zero;
     logic        ex_branch_take;
     logic        ex_valid;
     logic        ex_jump, ex_jalr;
     logic [1:0]  ex_alu_a_sel;
 
     // ----- MEM Stage -----
-    logic        mem_reg_write, mem_mem_to_reg, mem_mem_read, mem_write_enable, mem_branch;
+    logic        mem_reg_write, mem_mem_to_reg, mem_mem_read, mem_write_enable;
     logic [2:0]  mem_funct3;
-    logic [31:0] mem_branch_target, mem_alu_out, mem_rs2_data, mem_read_data;
-    logic        mem_zero;
+    logic [31:0] mem_alu_out, mem_rs2_data, mem_read_data;
     logic [4:0]  mem_rd_addr;
     logic        mem_valid;
 
@@ -305,9 +303,6 @@ module riscv_core(
         .mem_to_reg_in     (ex_mem_to_reg),
         .mem_read_in       (ex_mem_read),
         .mem_write_in      (ex_mem_write),
-        .branch_in         (ex_branch),
-        .branch_target_in  (ex_branch_target),
-        .zero_in           (ex_zero),
         .alu_out_in        (ex_result),
         .rs2_data_in       (forward_b_data),
         .rd_addr_in        (ex_rd_addr),
@@ -318,9 +313,6 @@ module riscv_core(
         .mem_to_reg_out    (mem_mem_to_reg),
         .mem_read_out      (mem_mem_read),
         .mem_write_out     (mem_write_enable),
-        .branch_out        (mem_branch),
-        .branch_target_out (mem_branch_target),
-        .zero_out          (mem_zero),
         .alu_out_out       (mem_alu_out),
         .rs2_data_out      (mem_rs2_data),
         .rd_addr_out       (mem_rd_addr),
