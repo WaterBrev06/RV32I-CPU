@@ -17,9 +17,17 @@
     "dir::../csr_unit.sv",
     "dir::../lsu.sv"
   ],
+  "EXTRA_EXCLUDED_CELLS": [
+  "sky130_fd_sc_hd__clkdlybuf4s*",
+  "sky130_fd_sc_hd__dlygate4sd*",
+  "sky130_fd_sc_hd__dlymetal6s*"
+],
   "CLOCK_PORT": "clk",
   "CLOCK_PERIOD": 20,
-  "FP_CORE_UTIL": 50,
+  "FP_CORE_UTIL": 40,
+  "DESIGN_REPAIR_MAX_WIRE_LENGTH": 300,
+  "GRT_DESIGN_REPAIR_MAX_WIRE_LENGTH": 300,
+  "SYNTH_STRATEGY": "DELAY 1",
   "RUN_POST_GRT_DESIGN_REPAIR": true,
   "RUN_POST_GRT_RESIZER_TIMING": true
 }

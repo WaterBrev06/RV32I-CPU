@@ -36,4 +36,11 @@ module soc_sim(
     assert property (@(posedge clk) disable iff (rst)
         ((u_core.u_lsu.mem_read || u_core.u_lsu.mem_write) && u_core.u_lsu.funct3[1:0] == 2'b10)
         |-> (u_core.u_lsu.addr[1:0] == 2'b00));
+    
+        // forwarding_unit must never produce 11: the core's forwarding mux relies on one-hot selects
+    always @(posedge clk) if (!rst) begin
+        assert (u_core.forward_a != 2'b11) else $error("forward_a = 11");
+        assert (u_core.forward_b != 2'b11) else $error("forward_b = 11");
+    end
+    
 endmodule

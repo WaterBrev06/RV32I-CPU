@@ -245,23 +245,12 @@ module riscv_core(
         .redirect_pc(csr_redirect_pc)
     );
 
-    // Forwarding MUX for ALU Input A
-    always_comb begin
-        case (forward_a)
-            2'b10:   alu_in1 = mem_alu_out;  // Forward from MEM stage
-            2'b01:   alu_in1 = wb_data;      // Forward from WB stage
-            default: alu_in1 = ex_rs1_data;  // Original register value
-        endcase
-    end
-
-    // Forwarding MUX for Register Source 2 Data
-    always_comb begin
-        case (forward_b)
-            2'b10:   forward_b_data = mem_alu_out;
-            2'b01:   forward_b_data = wb_data;
-            default: forward_b_data = ex_rs2_data;
-        endcase
-    end
+    // Forwarding muxes. forward_x is one-hot: [1] = EX/MEM, [0] = MEM/WB,
+    // 00 = register file. 11 never occurs (forwarding_unit gives EX/MEM
+    // priority), so each select bit drives the mux directly: no decode gate
+    // between the ID/EX flip-flop and the 32 mux bits.
+    assign alu_in1        = forward_a[1] ? mem_alu_out : (forward_a[0] ? wb_data : ex_rs1_data);
+    assign forward_b_data = forward_b[1] ? mem_alu_out : (forward_b[0] ? wb_data : ex_rs2_data);
 
     logic [31:0] alu_a;
     always_comb begin
