@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 
 module forwarding_unit(
-    input  logic [4:0] id_ex_rs1,        // Source register 1 in EX stage
-    input  logic [4:0] id_ex_rs2,        // Source register 2 in EX stage
-    input  logic [4:0] ex_mem_rd,       // Destination register in MEM stage
-    input  logic [4:0] mem_wb_rd,       // Destination register in WB stage
-    input  logic       ex_mem_reg_write, // RegWrite signal in MEM stage
-    input  logic       mem_wb_reg_write, // RegWrite signal in WB stage
-    output logic [1:0] forward_a,        // Controls MUX for ALU input A
-    output logic [1:0] forward_b         // Controls MUX for ALU input B
+    input  logic [4:0] id_ex_rs1,        // rs1 of the instruction being checked (now: in ID)
+    input  logic [4:0] id_ex_rs2,        // rs2 of the instruction being checked (now: in ID)
+    input  logic [4:0] ex_mem_rd,        // rd of the instruction one ahead   (now: in EX)
+    input  logic [4:0] mem_wb_rd,        // rd of the instruction two ahead   (now: in MEM)
+    input  logic       ex_mem_reg_write, // reg_write of the instruction one ahead
+    input  logic       mem_wb_reg_write, // reg_write of the instruction two ahead
+    output logic [1:0] forward_a,        // select for rs1, used one cycle later in EX
+    output logic [1:0] forward_b         // select for rs2, used one cycle later in EX
     
     );
     

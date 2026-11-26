@@ -43,12 +43,13 @@ module riscv_core(
     logic        id_valid;
     logic [1:0]  id_alu_op;
     logic [1:0]  id_alu_a_sel;
+    logic [1:0] id_fwd_a, id_fwd_b;    // computed in ID, registered into ID/EX
 
     // ----- EX Stage -----
     logic [31:0] ex_pc, ex_rs1_data, ex_rs2_data, ex_imm;
     logic [2:0]  ex_funct3;
     logic        ex_funct7_5, ex_op_bit5;
-    logic [4:0]  ex_rs1_addr, ex_rs2_addr, ex_rd_addr;
+    logic [4:0]  ex_rs1_addr, ex_rd_addr;
     logic        ex_reg_write, ex_mem_to_reg, ex_mem_read, ex_mem_write, ex_branch, ex_alu_src, ex_system;
     logic [1:0]  ex_alu_op;
     logic [3:0]  ex_alu_ctrl;
@@ -127,7 +128,7 @@ module riscv_core(
 
     // Main Control Unit
     control_unit control (
-        .opcode     (id_instr[6:0]),
+        .opcode     (id_valid ? id_instr[6:0] : 7'b0000000),
         .reg_write  (id_reg_write),
         .alu_src    (id_alu_src),
         .mem_to_reg (id_mem_to_reg),
@@ -182,12 +183,13 @@ module riscv_core(
         .funct7_5_in    (id_instr[30]),
         .op_bit5_in     (id_instr[5]),
         .rs1_addr_in    (id_rs1_addr),
-        .rs2_addr_in    (id_rs2_addr),
         .rd_addr_in     (id_rd_addr),
         .valid_in       (id_valid),
         .jump_in        (id_jump),
         .jalr_in        (id_jalr),
         .system_in      (id_system),
+        .fwd_a_in       (id_fwd_a),
+        .fwd_b_in       (id_fwd_b),
 
         .reg_write_out  (ex_reg_write),
         .mem_to_reg_out (ex_mem_to_reg),
@@ -205,11 +207,12 @@ module riscv_core(
         .funct7_5_out   (ex_funct7_5),
         .op_bit5_out    (ex_op_bit5),
         .rs1_addr_out   (ex_rs1_addr),
-        .rs2_addr_out   (ex_rs2_addr),
         .rd_addr_out    (ex_rd_addr),
         .valid_out      (ex_valid),
         .jump_out       (ex_jump),
         .jalr_out       (ex_jalr),
+        .fwd_a_out      (forward_a),      // the EX forwarding muxes are unchanged: they already read forward_a/b
+        .fwd_b_out      (forward_b),
         .system_out     (ex_system)
     );
 
@@ -376,14 +379,14 @@ module riscv_core(
     // ========================================================================
 
     forwarding_unit fwd (
-        .id_ex_rs1        (ex_rs1_addr),
-        .id_ex_rs2        (ex_rs2_addr),
-        .ex_mem_rd        (mem_rd_addr),
-        .mem_wb_rd        (wb_rd_addr),
-        .ex_mem_reg_write (mem_reg_write),
-        .mem_wb_reg_write (wb_reg_write),
-        .forward_a        (forward_a),
-        .forward_b        (forward_b)
+        .id_ex_rs1        (id_rs1_addr),     // was ex_rs1_addr
+        .id_ex_rs2        (id_rs2_addr),     // was ex_rs2_addr
+        .ex_mem_rd        (ex_rd_addr),      // was mem_rd_addr
+        .mem_wb_rd        (mem_rd_addr),     // was wb_rd_addr
+        .ex_mem_reg_write (ex_reg_write),    // was mem_reg_write
+        .mem_wb_reg_write (mem_reg_write),   // was wb_reg_write
+        .forward_a        (id_fwd_a),        // was forward_a
+        .forward_b        (id_fwd_b)         // was forward_b
     );
 
     hazard_unit hazard (

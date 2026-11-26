@@ -4,7 +4,7 @@ module if_id_reg(
     input  logic        clk,
     input  logic        rst,
     input  logic        stall,     // Freeze register content on load-use hazard
-    input  logic        flush,     // Flush instruction to NOP on branch/jump
+    input  logic        flush,     // Cancel the instruction on a branch/jump/trap redirect
     input  logic        valid_in,
     input  logic [31:0] pc_in,
     input  logic [31:0] instr_in,
@@ -12,21 +12,29 @@ module if_id_reg(
     output logic [31:0] instr_out,
     output logic        valid_out
     );
-    
+
+    // Valid bit: the only bit a flush touches. The decoder treats an instruction
+    // with valid = 0 as a bubble, so the PC and instruction fields need no flush.
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst)
+            valid_out <= 1'b0;
+        else if (flush)
+            valid_out <= 1'b0;
+        else if (!stall)
+            valid_out <= valid_in;
+    end
+
+    // PC and instruction: load whenever not stalled; never flushed.
+    // (A stall and a flush cannot happen together: a stall needs a load in EX,
+    //  a flush needs a branch, jump or trap in EX.)
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             pc_out    <= 32'd0;
             instr_out <= 32'h0000_0013; // NOP (addi x0, x0, 0)
-            valid_out <= 0;
-        end else if (flush) begin
-            pc_out    <= 32'd0;
-            instr_out <= 32'h0000_0013; // NOP (addi x0, x0, 0)
-            valid_out <= 0;
         end else if (!stall) begin
             pc_out    <= pc_in;
             instr_out <= instr_in;
-            valid_out <= valid_in;
         end
     end
-    
+
 endmodule
